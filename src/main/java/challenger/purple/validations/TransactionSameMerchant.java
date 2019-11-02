@@ -1,16 +1,19 @@
 package challenger.purple.validations;
 
+import challenger.purple.Util.Util;
 import challenger.purple.model.TransactionModel;
 import challenger.purple.model.enums.EnumAccountViolations;
 import challenger.purple.model.response.AccountResponseModel;
 
-import java.util.Collections;
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class TransactionSameMerchant implements Validations<AccountResponseModel, Map<Integer, TransactionModel>> {
     private Validations nextValidtor;
+
 
     public Validations getNextValidtor() {
         return nextValidtor;
@@ -22,22 +25,30 @@ public class TransactionSameMerchant implements Validations<AccountResponseModel
     }
 
     @Override
-    public AccountResponseModel validation(AccountResponseModel o, Map<Integer, TransactionModel> v) {
+    public AccountResponseModel validation(AccountResponseModel accountResponseModel, Map<Integer, TransactionModel> transactionModelMap) {
+        AtomicLong count = new AtomicLong(0);
 
-        List<String> merchants =  v.values().stream().map(TransactionModel::getMerchant).collect(Collectors.toList());
+        for (int i = 0; i < transactionModelMap.values().size()-1; i++) {
+            for (int j = i+1; j < transactionModelMap.values().size(); j++) {
+                if(isEquals(transactionModelMap, i, j) && compareDuration(transactionModelMap.get(i+1),transactionModelMap.get(j+1))){
+                    count.incrementAndGet();
+                }
+            }
+        }
+        if(count.get() > 0){
+            accountResponseModel.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
+        }
 
-        long l = v.values().stream().filter(transactionModel -> getTime(transactionModel) <= 0
-                && Collections.frequency(merchants,transactionModel.getMerchant()) > 2).count();
-
-        if(l > 0)
-            o.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
-
-        return nextValidtor.validation(o,v);
+        return nextValidtor.validation(accountResponseModel,transactionModelMap);
     }
 
-    private long getTime(TransactionModel transactionModel) {
-        /*Long aLong = Util.convertStringDateToLocalDateTime(transactionModel.getTime());*/
-        /*return (aLong + TimeUnit.MINUTES.toMillis(2L)) - aLong;*/
-        return 0l;
+    private boolean isEquals(Map<Integer, TransactionModel> transactionModelMap, int i, int j) {
+        return transactionModelMap.get(i+1).equals(transactionModelMap.get(j+1));
+    }
+
+
+    private boolean compareDuration(TransactionModel previus, TransactionModel next){
+        Duration duration = Duration.between(Util.convertStringDateToLocalDateTime(previus.getTime()),Util.convertStringDateToLocalDateTime(next.getTime()));
+        return duration.getSeconds() <= 120;
     }
 }
