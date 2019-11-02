@@ -23,9 +23,12 @@ public class TransactionFrequencySmallInterval implements Validations<AccountRes
     public AccountResponseModel validation(AccountResponseModel accountResponseModel, Map<Integer, TransactionModel> transactionModelMap) {
         count = new AtomicLong(0);
         List<LocalDateTime>  transactionsDate = transactionModelMap.values().stream().map(getTime()).collect(Collectors.toList());
-        IntStream.range(0,transactionsDate.size()-1).forEach(i -> compareDuration(transactionsDate.get(i),transactionsDate.get(i+1)));
-
-        if(count.get() >= 2){
+        for (int i = 0; i < transactionsDate.size()-1; i++) {
+            for (int j = i+1; j < transactionsDate.size(); j++) {
+                compareDuration(transactionsDate.get(i),transactionsDate.get(j));
+            }
+        }
+        if(count.get() > 3){
             accountResponseModel.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
             return accountResponseModel;
         }
@@ -44,12 +47,6 @@ public class TransactionFrequencySmallInterval implements Validations<AccountRes
 
     }
 
-
-
-
-    public Validations getNextValidtor() {
-        return nextValidtor;
-    }
 
     public Validations setNextValidtor(Validations nextValidtor) {
         this.nextValidtor = nextValidtor;

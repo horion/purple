@@ -28,12 +28,11 @@ class TransactionFrequencySmallIntervalTest {
 
 
     @Test
-    void validationFailed() {
+    void validationThreeTransactionSeconds() {
         AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
         AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
-        accountResponseExpected.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
 
-        TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:00:00.000Z");
+        TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:01:01.000Z");
         map.put(1, transactionModel);
 
         TransactionModel transactionModel2 = new TransactionModel("Gildo Lanches", 100L, "2019-02-13T10:01:02.000Z");
@@ -81,5 +80,48 @@ class TransactionFrequencySmallIntervalTest {
         AccountResponseModel a = transactionFrequencySmallInterval.validation(accountResponseModel,map);
         assertEquals(accountResponseExpected,a);
 
+    }
+
+    @Test
+    void validationFourTransaction() {
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+
+        TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:00:00.000Z");
+        map.put(1, transactionModel);
+
+        TransactionModel transactionModel3 = new TransactionModel("Bar da Veia", 100L, "2019-02-13T10:01:03.000Z");
+        map.put(2, transactionModel3);
+
+        TransactionModel transactionModel2 = new TransactionModel("Gildo Lanches", 100L, "2019-02-13T10:02:04.000Z");
+        map.put(3, transactionModel2);
+
+        TransactionModel transactionModel4 = new TransactionModel("Gildo Lanches", 100L, "2019-02-13T10:05:04.000Z");
+        map.put(4, transactionModel4);
+
+        AccountResponseModel a = transactionFrequencySmallInterval.validation(accountResponseModel,map);
+        assertEquals(accountResponseExpected,a);
+    }
+
+    @Test
+    void validationFourTransactionFailed() {
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        accountResponseExpected.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
+
+        TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:01:00.000Z");
+        map.put(1, transactionModel);
+
+        TransactionModel transactionModel3 = new TransactionModel("Bar da Veia", 100L, "2019-02-13T10:01:03.000Z");
+        map.put(2, transactionModel3);
+
+        TransactionModel transactionModel2 = new TransactionModel("Gildo Lanches", 100L, "2019-02-13T10:02:04.000Z");
+        map.put(3, transactionModel2);
+
+        TransactionModel transactionModel4 = new TransactionModel("Gildo Lanches", 100L, "2019-02-13T10:02:05.000Z");
+        map.put(4, transactionModel4);
+
+        AccountResponseModel a = transactionFrequencySmallInterval.validation(accountResponseModel,map);
+        assertEquals(accountResponseExpected,a);
     }
 }
