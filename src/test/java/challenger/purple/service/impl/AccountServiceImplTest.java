@@ -106,4 +106,29 @@ class AccountServiceImplTest {
         AccountResponseModel result = accountService.save(accountModel);
         assertEquals(expected,result);
     }
+
+    @Test
+    void updateLimit(){
+        AccountModel accountModel = new AccountModel(true,100L);
+        when(accountService.getAccount(1)).thenReturn(accountModel);
+        AccountModel expected = new AccountModel(true,30L);
+        when(accountPersistence.merge(eq(accountModel))).thenReturn(expected);
+
+        AccountModel result = accountService.updateLimit(1,70L);
+        assertEquals(expected,result);
+
+    }
+
+
+    @Test
+    void updateLimitFailed(){
+        AccountModel accountModel = new AccountModel(true,100L);
+        when(accountService.getAccount(1)).thenReturn(accountModel);
+        AccountModel expected = new AccountModel(true,0L);
+        when(accountPersistence.merge(eq(accountModel))).thenReturn(expected);
+
+        AccountModel result = accountService.updateLimit(1,110L);
+        assertEquals(expected,result);
+
+    }
 }

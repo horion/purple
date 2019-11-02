@@ -39,7 +39,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountModel updateLimit(Integer id, Long amount) {
         AccountModel accountModel = this.getAccount(id);
-        accountModel.setAvailableLimit(accountModel.getAvailableLimit() - amount);
+        long availableLimit = accountModel.getAvailableLimit() - amount;
+        if(availableLimit < 0)
+            availableLimit = 0;
+        accountModel.setAvailableLimit(availableLimit);
         persistence.merge(accountModel);
         return accountModel;
     }
