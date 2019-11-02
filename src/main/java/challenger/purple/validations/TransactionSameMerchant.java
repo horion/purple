@@ -1,15 +1,12 @@
 package challenger.purple.validations;
 
-import challenger.purple.Util.Util;
 import challenger.purple.model.TransactionModel;
 import challenger.purple.model.enums.EnumAccountViolations;
 import challenger.purple.model.response.AccountResponseModel;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class TransactionSameMerchant implements Validations<AccountResponseModel, Map<Integer, TransactionModel>> {
@@ -39,7 +36,8 @@ public class TransactionSameMerchant implements Validations<AccountResponseModel
     }
 
     private long getTime(TransactionModel transactionModel) {
-        Long aLong = Util.convertStringDateToMillis(transactionModel.getTime());
-        return (aLong + TimeUnit.MINUTES.toMillis(2L)) - aLong;
+        /*Long aLong = Util.convertStringDateToLocalDateTime(transactionModel.getTime());*/
+        /*return (aLong + TimeUnit.MINUTES.toMillis(2L)) - aLong;*/
+        return 0l;
     }
 }

@@ -9,13 +9,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ActiveCardValidatorTest {
     private ActiveCardValidator activeCardValidator;
-    private Map<Integer,TransactionModel> map = new HashMap<>();
+    private Map<Integer,TransactionModel> map = new TreeMap<>();
 
     @BeforeEach
     void init(){

@@ -11,13 +11,13 @@ public class LimitCardValidator implements Validations<AccountResponseModel, Map
     private Validations nextValidtor;
 
     @Override
-    public AccountResponseModel validation(AccountResponseModel o, Map<Integer, TransactionModel> v) {
-        TransactionModel transactionModel = v.get(v.values().size());
-        if(o.getAvailableLimit()  < transactionModel.getAmount()){
-            o.setViolations(EnumAccountViolations.INSUFFICIENT_LIMIT);
-            return o;
+    public AccountResponseModel validation(AccountResponseModel accountResponseModel, Map<Integer, TransactionModel> transactionModelMap) {
+        TransactionModel transactionModel = transactionModelMap.get(transactionModelMap.values().size());
+        if(accountResponseModel.getAvailableLimit()  < transactionModel.getAmount()){
+            accountResponseModel.setViolations(EnumAccountViolations.INSUFFICIENT_LIMIT);
+            return accountResponseModel;
         }
-        return nextValidtor.validation(o,v);
+        return nextValidtor.validation(accountResponseModel,transactionModelMap);
     }
 
     Validations setNextValidtor(Validations nextValidtor) {

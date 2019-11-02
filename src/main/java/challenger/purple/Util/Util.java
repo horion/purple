@@ -1,15 +1,24 @@
 package challenger.purple.Util;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-import static java.time.temporal.ChronoField.EPOCH_DAY;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class Util {
 
-    public static Long convertStringDateToMillis(String date){
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        LocalDate parseDate = LocalDate.parse(date, dateTimeFormatter);
-        return parseDate.getLong(EPOCH_DAY);
+    public static LocalDateTime convertStringDateToLocalDateTime(String date) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date dateResult = null;
+        try {
+            dateResult = inputFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        assert dateResult != null;
+        return dateResult.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
     }
 }

@@ -5,32 +5,47 @@ import challenger.purple.model.TransactionModel;
 import challenger.purple.model.enums.EnumAccountViolations;
 import challenger.purple.model.response.AccountResponseModel;
 
-import java.util.Collections;
-import java.util.Date;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class TransactionFrequencySmallInterval implements Validations<AccountResponseModel, Map<Integer, TransactionModel>> {
 
     private Validations nextValidtor;
+    private AtomicLong count;
 
     @Override
-    public AccountResponseModel validation(AccountResponseModel o, Map<Integer, TransactionModel> v) {
-        long l = v.values().stream().filter(transactionModel -> getTime(transactionModel) <= 0).count();
+    public AccountResponseModel validation(AccountResponseModel accountResponseModel, Map<Integer, TransactionModel> transactionModelMap) {
+        count = new AtomicLong(0);
+        List<LocalDateTime>  transactionsDate = transactionModelMap.values().stream().map(getTime()).collect(Collectors.toList());
+        IntStream.range(0,transactionsDate.size()-1).forEach(i -> compareDuration(transactionsDate.get(i),transactionsDate.get(i+1)));
 
-        if(l > 3){
-            o.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
-            return o;
+        if(count.get() >= 2){
+            accountResponseModel.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
+            return accountResponseModel;
         }
-        return nextValidtor.validation(o,v);
+        return nextValidtor.validation(accountResponseModel,transactionModelMap);
     }
 
-    private long getTime(TransactionModel transactionModel) {
-        Long aLong = Util.convertStringDateToMillis(transactionModel.getTime());
-        return (aLong + TimeUnit.MINUTES.toMillis(2L)) - aLong;
+    private Function<TransactionModel, LocalDateTime> getTime() {
+        return transactionModel ->
+                Util.convertStringDateToLocalDateTime(transactionModel.getTime());
     }
+
+    private void compareDuration(LocalDateTime previus, LocalDateTime next){
+        Duration duration = Duration.between(previus, next);
+        if(duration.getSeconds() <= 120)
+            count.incrementAndGet();
+
+    }
+
+
+
 
     public Validations getNextValidtor() {
         return nextValidtor;

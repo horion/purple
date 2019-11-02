@@ -11,12 +11,12 @@ public class ActiveCardValidator implements Validations<AccountResponseModel, Ma
     private Validations nextValidtor;
 
     @Override
-    public AccountResponseModel validation(AccountResponseModel o, Map<Integer, TransactionModel> v) {
-        if(!o.isActiveCard()){
-            o.setViolations(EnumAccountViolations.CARD_NOT_ACTIVE);
-            return o;
+    public AccountResponseModel validation(AccountResponseModel accountResponseModel, Map<Integer, TransactionModel> transactionModelMap) {
+        if(!accountResponseModel.isActiveCard()){
+            accountResponseModel.setViolations(EnumAccountViolations.CARD_NOT_ACTIVE);
+            return accountResponseModel;
         }
-        return nextValidtor.validation(o,v);
+        return nextValidtor.validation(accountResponseModel,transactionModelMap);
     }
 
     public Validations getNextValidtor() {

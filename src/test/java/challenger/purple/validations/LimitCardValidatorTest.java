@@ -9,13 +9,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class LimitCardValidatorTest {
 
     private LimitCardValidator limitCard;
-    private Map<Integer,TransactionModel> map = new HashMap<>();
+    private Map<Integer,TransactionModel> map = new TreeMap<>();
     private AccountModel accountModel;
 
 
