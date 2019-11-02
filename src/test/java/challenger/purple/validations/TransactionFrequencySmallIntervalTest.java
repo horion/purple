@@ -29,8 +29,8 @@ class TransactionFrequencySmallIntervalTest {
 
     @Test
     void validationThreeTransactionSeconds() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:01:01.000Z");
         map.put(1, transactionModel);
@@ -48,8 +48,8 @@ class TransactionFrequencySmallIntervalTest {
 
     @Test
     void validation() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:00:00.000Z");
         map.put(1, transactionModel);
@@ -64,8 +64,8 @@ class TransactionFrequencySmallIntervalTest {
 
     @Test
     void validationThreeTransaction() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:00:00.000Z");
         map.put(1, transactionModel);
@@ -84,8 +84,8 @@ class TransactionFrequencySmallIntervalTest {
 
     @Test
     void validationFourTransaction() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:00:00.000Z");
         map.put(1, transactionModel);
@@ -105,8 +105,8 @@ class TransactionFrequencySmallIntervalTest {
 
     @Test
     void validationFourTransactionFailed() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
         accountResponseExpected.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:01:00.000Z");

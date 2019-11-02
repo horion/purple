@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class LimitCardValidator implements Validations<AccountResponseModel, Map<Integer, TransactionModel>> {
 
-    private Validations nextValidtor;
+    private Validations nextValidator;
 
     @Override
     public AccountResponseModel validation(AccountResponseModel accountResponseModel, Map<Integer, TransactionModel> transactionModelMap) {
@@ -17,11 +17,11 @@ public class LimitCardValidator implements Validations<AccountResponseModel, Map
             accountResponseModel.setViolations(EnumAccountViolations.INSUFFICIENT_LIMIT);
             return accountResponseModel;
         }
-        return nextValidtor.validation(accountResponseModel,transactionModelMap);
+        return nextValidator.validation(accountResponseModel,transactionModelMap);
     }
 
     Validations setNextValidtor(Validations nextValidtor) {
-        this.nextValidtor = nextValidtor;
+        this.nextValidator = nextValidtor;
         return this;
     }
 }

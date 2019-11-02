@@ -12,11 +12,10 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class TransactionFrequencySmallInterval implements Validations<AccountResponseModel, Map<Integer, TransactionModel>> {
 
-    private Validations nextValidtor;
+    private Validations nextValidator;
     private AtomicLong count;
 
     @Override
@@ -32,7 +31,7 @@ public class TransactionFrequencySmallInterval implements Validations<AccountRes
             accountResponseModel.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
             return accountResponseModel;
         }
-        return nextValidtor.validation(accountResponseModel,transactionModelMap);
+        return nextValidator.validation(accountResponseModel,transactionModelMap);
     }
 
     private Function<TransactionModel, LocalDateTime> getTime() {
@@ -48,8 +47,8 @@ public class TransactionFrequencySmallInterval implements Validations<AccountRes
     }
 
 
-    public Validations setNextValidtor(Validations nextValidtor) {
-        this.nextValidtor = nextValidtor;
+    Validations setNextValidtor(Validations nextValidtor) {
+        this.nextValidator = nextValidtor;
         return this;
     }
 }

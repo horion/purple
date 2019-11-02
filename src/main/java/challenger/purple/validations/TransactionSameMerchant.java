@@ -6,21 +6,14 @@ import challenger.purple.model.enums.EnumAccountViolations;
 import challenger.purple.model.response.AccountResponseModel;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class TransactionSameMerchant implements Validations<AccountResponseModel, Map<Integer, TransactionModel>> {
-    private Validations nextValidtor;
+    private Validations nextValidator;
 
-
-    public Validations getNextValidtor() {
-        return nextValidtor;
-    }
-
-    public Validations setNextValidtor(Validations nextValidtor) {
-        this.nextValidtor = nextValidtor;
+    Validations setNextValidtor(Validations nextValidtor) {
+        this.nextValidator = nextValidtor;
         return this;
     }
 
@@ -39,7 +32,7 @@ public class TransactionSameMerchant implements Validations<AccountResponseModel
             accountResponseModel.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
         }
 
-        return nextValidtor.validation(accountResponseModel,transactionModelMap);
+        return nextValidator.validation(accountResponseModel,transactionModelMap);
     }
 
     private boolean isEquals(Map<Integer, TransactionModel> transactionModelMap, int i, int j) {

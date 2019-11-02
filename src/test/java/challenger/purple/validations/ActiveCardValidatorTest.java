@@ -29,8 +29,8 @@ class ActiveCardValidatorTest {
     @Test
     void validation() {
         AccountModel accountModel = new AccountModel(true, 100L);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
         AccountResponseModel a = activeCardValidator.validation(accountResponseModel,map);
         assertEquals(accountResponseExpected,a);
@@ -40,8 +40,8 @@ class ActiveCardValidatorTest {
     @Test
     void validationCardNotActive() {
         AccountModel accountModel = new AccountModel(false, 100L);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
         accountResponseExpected.setViolations(EnumAccountViolations.CARD_NOT_ACTIVE);
 
 
@@ -53,8 +53,8 @@ class ActiveCardValidatorTest {
     @Test
     void validationCardNotActiveFailed() {
         AccountModel accountModel = new AccountModel(false, 100L);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
         AccountResponseModel a = activeCardValidator.validation(accountResponseModel,map);
         assertNotEquals(accountResponseExpected,a);
@@ -64,8 +64,8 @@ class ActiveCardValidatorTest {
     @Test
     void validationActiveCardFailed() {
         AccountModel accountModel = new AccountModel(true, 100L);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
         accountResponseExpected.setViolations(EnumAccountViolations.CARD_NOT_ACTIVE);
 
         AccountResponseModel a = activeCardValidator.validation(accountResponseModel,map);

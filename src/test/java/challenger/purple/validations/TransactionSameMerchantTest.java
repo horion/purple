@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TransactionSameMerchantTest {
 
@@ -29,8 +29,8 @@ class TransactionSameMerchantTest {
 
     @Test
     void validation() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:01:01.000Z");
         map.put(1, transactionModel);
@@ -47,8 +47,8 @@ class TransactionSameMerchantTest {
 
     @Test
     void validationFailed() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
         accountResponseExpected.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:01:01.000Z");
@@ -69,8 +69,8 @@ class TransactionSameMerchantTest {
 
     @Test
     void validationAmountDifferentSuccess() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:01:00.000Z");
         map.put(1, transactionModel);
@@ -84,8 +84,8 @@ class TransactionSameMerchantTest {
 
     @Test
     void validationTimeDifferentSuccess() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
         accountResponseExpected.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
 
 
@@ -101,8 +101,8 @@ class TransactionSameMerchantTest {
 
     @Test
     void validationMerchantDifferentSuccess() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
 
         TransactionModel transactionModel = new TransactionModel("Bar da Veia", 100L, "2019-02-13T10:01:02.000Z");

@@ -30,8 +30,8 @@ class LimitCardValidatorTest {
 
     @Test
     void validation() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
         TransactionModel transactionModel = new TransactionModel("Burger King", 20L, "2019-02-13T10:00:00.000Z");
         map.put(1, transactionModel);
 
@@ -41,8 +41,8 @@ class LimitCardValidatorTest {
 
     @Test
     void validationInsufficientLimit() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
         accountResponseExpected.setViolations(EnumAccountViolations.INSUFFICIENT_LIMIT);
         TransactionModel transactionModel = new TransactionModel("Burger King", 110L, "2019-02-13T10:00:00.000Z");
         map.put(1, transactionModel);
@@ -53,8 +53,8 @@ class LimitCardValidatorTest {
 
     @Test
     void validationEqualLimit() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
         TransactionModel transactionModel = new TransactionModel("Burger King", 100L, "2019-02-13T10:00:00.000Z");
         map.put(1, transactionModel);
 
@@ -64,8 +64,8 @@ class LimitCardValidatorTest {
     @Test
     void validationZeroLimit() {
         AccountModel accountModel = new AccountModel(true, 0L);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
         accountResponseExpected.setViolations(EnumAccountViolations.INSUFFICIENT_LIMIT);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 100L, "2019-02-13T10:00:00.000Z");
@@ -77,8 +77,8 @@ class LimitCardValidatorTest {
 
     @Test
     void validationZeroTransaction() {
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 0L, "2019-02-13T10:00:00.000Z");
         map.put(1, transactionModel);
@@ -90,8 +90,8 @@ class LimitCardValidatorTest {
     @Test
     void validationZeroTransactionAndZeroLimit() {
         AccountModel accountModel = new AccountModel(true, 0L);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 0L, "2019-02-13T10:00:00.000Z");
         map.put(1, transactionModel);
@@ -103,8 +103,8 @@ class LimitCardValidatorTest {
     @Test
     void validationTwoTransactionFailed() {
         AccountModel accountModel = new AccountModel(true, 100L);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:00:00.000Z");
         map.put(1, transactionModel);
@@ -113,7 +113,7 @@ class LimitCardValidatorTest {
         assertEquals(accountResponseExpected,a);
 
         accountModel.setAvailableLimit(a.getAvailableLimit() - transactionModel.getAmount());
-        accountResponseModel = new AccountResponseModel(accountModel,null);
+        accountResponseModel = new AccountResponseModel(accountModel);
 
         TransactionModel transactionModel2 = new TransactionModel("Gildo Lanches", 100L, "2019-02-13T10:00:00.000Z");
         map.put(2, transactionModel2);
@@ -127,8 +127,8 @@ class LimitCardValidatorTest {
     @Test
     void validationTwoTransaction() {
         AccountModel accountModel = new AccountModel(true, 100L);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel,null);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel,null);
+        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
 
         TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:00:00.000Z");
         map.put(1, transactionModel);
@@ -137,7 +137,7 @@ class LimitCardValidatorTest {
         assertEquals(accountResponseExpected,a);
 
         accountModel.setAvailableLimit(a.getAvailableLimit() - transactionModel.getAmount());
-        accountResponseModel = new AccountResponseModel(accountModel,null);
+        accountResponseModel = new AccountResponseModel(accountModel);
 
         TransactionModel transactionModel2 = new TransactionModel("Gildo Lanches", 70L, "2019-02-13T10:00:00.000Z");
         map.put(2, transactionModel2);

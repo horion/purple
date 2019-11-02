@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ActiveCardValidator implements Validations<AccountResponseModel, Map<Integer, TransactionModel>> {
 
-    private Validations nextValidtor;
+    private Validations nextValidator;
 
     @Override
     public AccountResponseModel validation(AccountResponseModel accountResponseModel, Map<Integer, TransactionModel> transactionModelMap) {
@@ -16,15 +16,15 @@ public class ActiveCardValidator implements Validations<AccountResponseModel, Ma
             accountResponseModel.setViolations(EnumAccountViolations.CARD_NOT_ACTIVE);
             return accountResponseModel;
         }
-        return nextValidtor.validation(accountResponseModel,transactionModelMap);
+        return nextValidator.validation(accountResponseModel,transactionModelMap);
     }
 
-    public Validations getNextValidtor() {
-        return nextValidtor;
+    public Validations getNextValidator() {
+        return nextValidator;
     }
 
-    public Validations setNextValidtor(Validations nextValidtor) {
-        this.nextValidtor = nextValidtor;
+    Validations setNextValidtor(Validations nextValidtor) {
+        this.nextValidator = nextValidtor;
         return this;
     }
 }

@@ -9,4 +9,6 @@ public interface AccountService {
 
     AccountModel getAccount(Integer id);
 
+    AccountModel updateLimit(Integer id, Long amount);
+
 }

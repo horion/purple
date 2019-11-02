@@ -40,16 +40,16 @@ class AccountServiceImplTest {
 
     @Test
     void save() {
-        AccountResponseModel expected = new AccountResponseModel(accountModel, null);
+        AccountResponseModel expected = new AccountResponseModel(accountModel);
         AccountResponseModel result = accountService.save(accountModel);
         assertEquals(expected,result);
     }
 
     @Test
     void saveFailed() {
-        AccountResponseModel expected = new AccountResponseModel(accountModel, null);
+        AccountResponseModel expected = new AccountResponseModel(accountModel);
 
-        AccountResponseModel expected2 = new AccountResponseModel(accountModel, null);
+        AccountResponseModel expected2 = new AccountResponseModel(accountModel);
         expected2.setViolations(EnumAccountViolations.ACCOUNT_ALREADY_INITIALIZED);
 
 
@@ -84,7 +84,7 @@ class AccountServiceImplTest {
     void saveNotActiveCard() {
         AccountModel accountModel = new AccountModel(false,100L);
         when(accountPersistence.merge(eq(accountModel))).thenReturn(accountModel);
-        AccountResponseModel expected = new AccountResponseModel(accountModel, null);
+        AccountResponseModel expected = new AccountResponseModel(accountModel);
         AccountResponseModel result = accountService.save(accountModel);
         assertEquals(expected,result);
     }
@@ -93,7 +93,7 @@ class AccountServiceImplTest {
     void saveNotLimitCard() {
         AccountModel accountModel = new AccountModel(true,0L);
         when(accountPersistence.merge(eq(accountModel))).thenReturn(accountModel);
-        AccountResponseModel expected = new AccountResponseModel(accountModel, null);
+        AccountResponseModel expected = new AccountResponseModel(accountModel);
         AccountResponseModel result = accountService.save(accountModel);
         assertEquals(expected,result);
     }
@@ -102,7 +102,7 @@ class AccountServiceImplTest {
     void saveNotLimitAndNotActiveCard() {
         AccountModel accountModel = new AccountModel(false,0L);
         when(accountPersistence.merge(eq(accountModel))).thenReturn(accountModel);
-        AccountResponseModel expected = new AccountResponseModel(accountModel, null);
+        AccountResponseModel expected = new AccountResponseModel(accountModel);
         AccountResponseModel result = accountService.save(accountModel);
         assertEquals(expected,result);
     }

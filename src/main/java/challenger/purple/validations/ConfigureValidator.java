@@ -5,14 +5,14 @@ import challenger.purple.model.response.AccountResponseModel;
 
 import java.util.Map;
 
-public class ConfigureValidtor {
+public class ConfigureValidator {
 
     private  ActiveCardValidator activeCardValidator;
     private AccountResponseModel accountModel;
     private Map<Integer, TransactionModel> transactionModel;
 
 
-    public ConfigureValidtor(AccountResponseModel accountModel, Map<Integer, TransactionModel> transactionModel) {
+    public ConfigureValidator(AccountResponseModel accountModel, Map<Integer, TransactionModel> transactionModel) {
         this.init();
         this.accountModel = accountModel;
         this.transactionModel = transactionModel;

@@ -8,8 +8,6 @@ import challenger.purple.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-
 @Service
 public class AccountServiceImpl implements AccountService {
 
@@ -25,15 +23,25 @@ public class AccountServiceImpl implements AccountService {
         AccountModel accountPersistence = this.persistence.getById(1);
         if(accountPersistence == null) {
             AccountModel saved = this.persistence.merge(accountModel);
-            return new AccountResponseModel(saved,null);
+            return new AccountResponseModel(saved);
         }else{
-            return new AccountResponseModel(accountModel, Collections.singletonList(EnumAccountViolations.ACCOUNT_ALREADY_INITIALIZED));
+            AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
+            accountResponseModel.setViolations(EnumAccountViolations.ACCOUNT_ALREADY_INITIALIZED);
+            return accountResponseModel;
         }
     }
 
     @Override
     public AccountModel getAccount(Integer id) {
         return this.persistence.getById(id);
+    }
+
+    @Override
+    public AccountModel updateLimit(Integer id, Long amount) {
+        AccountModel accountModel = this.getAccount(id);
+        accountModel.setAvailableLimit(accountModel.getAvailableLimit() - amount);
+        persistence.merge(accountModel);
+        return accountModel;
     }
 
 }

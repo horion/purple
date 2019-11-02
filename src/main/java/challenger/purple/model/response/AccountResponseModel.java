@@ -46,11 +46,10 @@ public class AccountResponseModel implements Serializable {
         return violations;
     }
 
-    public AccountResponseModel(AccountModel model, List<EnumAccountViolations> accountViolations){
+    public AccountResponseModel(AccountModel model){
         this.activeCard = model.isActiveCard();
         this.availableLimit = model.getAvailableLimit();
-        if(accountViolations != null)
-            getViolations().addAll(accountViolations);
+        this.getViolations();
     }
 
     public AccountResponseModel setViolations(EnumAccountViolations violations) {
