@@ -1,6 +1,7 @@
 package challenger.purple.validations;
 
 import challenger.purple.model.response.AccountResponse;
+import challenger.purple.validations.Validations;
 
 public class LastValidator implements Validations {
 

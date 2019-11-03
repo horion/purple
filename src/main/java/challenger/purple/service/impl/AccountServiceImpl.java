@@ -5,6 +5,7 @@ import challenger.purple.model.enums.EnumAccountViolations;
 import challenger.purple.model.response.AccountResponse;
 import challenger.purple.persistence.impl.AccountPersistenceImpl;
 import challenger.purple.service.AccountService;
+import challenger.purple.validations.account.ConfigureAccountValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountPersistenceImpl persistence;
+
+    private ConfigureAccountValidator configureAccountValidator;
 
     @Autowired
     public AccountServiceImpl(AccountPersistenceImpl persistence) {
@@ -21,14 +24,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountResponse save(Account account) {
         Account accountPersistence = this.persistence.getById(1);
-        if(accountPersistence == null) {
-            Account saved = this.persistence.merge(account);
-            return new AccountResponse(saved);
-        }else{
-            AccountResponse accountResponse = new AccountResponse(accountPersistence);
-            accountResponse.setViolations(EnumAccountViolations.ACCOUNT_ALREADY_INITIALIZED);
-            return accountResponse;
+        AccountResponse accountResponse = new AccountResponse(accountPersistence);
+        ConfigureAccountValidator configureAccountValidator = new ConfigureAccountValidator(account,accountResponse);
+        AccountResponse validation = configureAccountValidator.validation();
+        if(validation.getViolations() == null || validation.getViolations().isEmpty()) {
+            this.persistence.merge(account);
         }
+        return accountResponse;
     }
 
     @Override

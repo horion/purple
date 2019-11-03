@@ -13,29 +13,10 @@ import java.util.Objects;
 public class AccountResponse implements Serializable {
 
     private static final long serialVersionUID = 1387586689917885258L;
-    private boolean activeCard;
-    private Long availableLimit;
+    private Account account;
     private List<EnumAccountViolations> violations;
 
     public AccountResponse() {
-    }
-
-    public Long getAvailableLimit() {
-        return availableLimit;
-    }
-
-    public AccountResponse setAvailableLimit(Long availableLimit) {
-        this.availableLimit = availableLimit;
-        return this;
-    }
-
-    public boolean isActiveCard() {
-        return activeCard;
-    }
-
-    public AccountResponse setActiveCard(boolean activeCard) {
-        this.activeCard = activeCard;
-        return this;
     }
 
 
@@ -47,8 +28,7 @@ public class AccountResponse implements Serializable {
     }
 
     public AccountResponse(Account model){
-        this.activeCard = model.isActiveCard();
-        this.availableLimit = model.getAvailableLimit();
+        this.account = model;
         this.getViolations();
     }
 
@@ -62,20 +42,28 @@ public class AccountResponse implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountResponse that = (AccountResponse) o;
-        return activeCard == that.activeCard &&
+        return this.account == that.account &&
                 Objects.equals(violations, that.violations);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(activeCard, violations);
+        return Objects.hash(account, violations);
     }
 
     @Override
     public String toString() {
-        return "{ account: {" +
-                "activeCard:" + activeCard +
-                ", availableLimit:" + availableLimit +
+        return "{" +
+                "account=" + account +
                 '}'+", violations: "+ violations.toString()+"}";
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public AccountResponse setAccount(Account account) {
+        this.account = account;
+        return this;
     }
 }

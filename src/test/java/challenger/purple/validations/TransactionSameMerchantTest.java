@@ -4,6 +4,7 @@ import challenger.purple.model.Account;
 import challenger.purple.model.Transaction;
 import challenger.purple.model.enums.EnumAccountViolations;
 import challenger.purple.model.response.AccountResponse;
+import challenger.purple.validations.transaction.TransactionSameMerchant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

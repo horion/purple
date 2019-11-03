@@ -1,9 +1,10 @@
-package challenger.purple.validations;
+package challenger.purple.validations.transaction;
 
 import challenger.purple.Util.Util;
 import challenger.purple.model.Transaction;
 import challenger.purple.model.enums.EnumAccountViolations;
 import challenger.purple.model.response.AccountResponse;
+import challenger.purple.validations.Validations;
 
 import java.time.Duration;
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class TransactionSameMerchant implements Validations<AccountResponse, Map<Integer, Transaction>> {
     private Validations nextValidator;
 
-    Validations setNextValidtor(Validations nextValidtor) {
+    public Validations setNextValidtor(Validations nextValidtor) {
         this.nextValidator = nextValidtor;
         return this;
     }

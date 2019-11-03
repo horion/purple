@@ -4,6 +4,7 @@ import challenger.purple.model.Account;
 import challenger.purple.model.Transaction;
 import challenger.purple.model.enums.EnumAccountViolations;
 import challenger.purple.model.response.AccountResponse;
+import challenger.purple.validations.transaction.LimitCardValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -111,7 +112,7 @@ class LimitCardValidatorTest {
         AccountResponse a = limitCard.validation(accountResponse,map);
         assertEquals(accountResponseExpected,a);
 
-        account.setAvailableLimit(a.getAvailableLimit() - transaction.getAmount());
+        account.setAvailableLimit(a.getAccount().getAvailableLimit() - transaction.getAmount());
         accountResponse = new AccountResponse(account);
 
         Transaction transaction2 = new Transaction("Gildo Lanches", 100L, "2019-02-13T10:00:00.000Z");
@@ -135,7 +136,7 @@ class LimitCardValidatorTest {
         AccountResponse a = limitCard.validation(accountResponse,map);
         assertEquals(accountResponseExpected,a);
 
-        account.setAvailableLimit(a.getAvailableLimit() - transaction.getAmount());
+        account.setAvailableLimit(a.getAccount().getAvailableLimit() - transaction.getAmount());
         accountResponse = new AccountResponse(account);
 
         Transaction transaction2 = new Transaction("Gildo Lanches", 70L, "2019-02-13T10:00:00.000Z");

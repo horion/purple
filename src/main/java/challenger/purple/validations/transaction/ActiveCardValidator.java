@@ -1,8 +1,9 @@
-package challenger.purple.validations;
+package challenger.purple.validations.transaction;
 
 import challenger.purple.model.Transaction;
 import challenger.purple.model.enums.EnumAccountViolations;
 import challenger.purple.model.response.AccountResponse;
+import challenger.purple.validations.Validations;
 
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public class ActiveCardValidator implements Validations<AccountResponse, Map<Int
 
     @Override
     public AccountResponse validation(AccountResponse accountResponse, Map<Integer, Transaction> transactionModelMap) {
-        if(!accountResponse.isActiveCard()){
+        if(!accountResponse.getAccount().isActiveCard()){
             accountResponse.setViolations(EnumAccountViolations.CARD_NOT_ACTIVE);
             return accountResponse;
         }
@@ -23,7 +24,7 @@ public class ActiveCardValidator implements Validations<AccountResponse, Map<Int
         return nextValidator;
     }
 
-    Validations setNextValidtor(Validations nextValidtor) {
+    public Validations setNextValidtor(Validations nextValidtor) {
         this.nextValidator = nextValidtor;
         return this;
     }

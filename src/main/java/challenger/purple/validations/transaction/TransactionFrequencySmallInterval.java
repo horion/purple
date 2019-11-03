@@ -1,9 +1,10 @@
-package challenger.purple.validations;
+package challenger.purple.validations.transaction;
 
 import challenger.purple.Util.Util;
 import challenger.purple.model.Transaction;
 import challenger.purple.model.enums.EnumAccountViolations;
 import challenger.purple.model.response.AccountResponse;
+import challenger.purple.validations.Validations;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -47,7 +48,7 @@ public class TransactionFrequencySmallInterval implements Validations<AccountRes
     }
 
 
-    Validations setNextValidtor(Validations nextValidtor) {
+    public Validations setNextValidtor(Validations nextValidtor) {
         this.nextValidator = nextValidtor;
         return this;
     }

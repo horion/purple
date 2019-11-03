@@ -1,7 +1,8 @@
-package challenger.purple.validations;
+package challenger.purple.validations.transaction;
 
 import challenger.purple.model.Transaction;
 import challenger.purple.model.response.AccountResponse;
+import challenger.purple.validations.LastValidator;
 
 import java.util.Map;
 

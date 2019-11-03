@@ -5,7 +5,7 @@ import challenger.purple.model.Transaction;
 import challenger.purple.model.response.AccountResponse;
 import challenger.purple.persistence.impl.TransactionPersistenceImpl;
 import challenger.purple.service.TransactionService;
-import challenger.purple.validations.ConfigureValidator;
+import challenger.purple.validations.transaction.ConfigureValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         if(validation.getViolations() == null || validation.getViolations().isEmpty()) {
             Account resultUpdate =  accountService.updateLimit(1, transaction.getAmount());
-            validation.setAvailableLimit(resultUpdate.getAvailableLimit());
+            validation.getAccount().setAvailableLimit(resultUpdate.getAvailableLimit());
         }
 
         return validation;

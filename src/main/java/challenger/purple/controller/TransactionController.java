@@ -30,7 +30,6 @@ public class TransactionController {
 
     private void execute(TransactionEvent transactionEvent) {
         AccountResponse accountResponse = transactionService.createTransaction(transactionEvent.getTransaction());
-        /*System.out.println(Util.objectToJson(accountResponse));*/
         System.out.println(accountResponse);
     }
 }

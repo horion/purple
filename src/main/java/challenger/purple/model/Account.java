@@ -49,4 +49,11 @@ public class Account implements Serializable {
     public int hashCode() {
         return Objects.hash(activeCard, availableLimit);
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "activeCard:" + activeCard +
+                ", availableLimit:" + availableLimit ;
+    }
 }
