@@ -2,5 +2,5 @@ spring:
   main:
     banner-mode: off
 scheduler:
-  initial: 30000
-  fixedRate: 5000
+  initial: 1000
+  fixedRate: 3000000

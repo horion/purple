@@ -1,14 +1,13 @@
 package challenger.purple.controller;
 
+import challenger.purple.Util.Util;
 import challenger.purple.model.Account;
 import challenger.purple.model.event.AccountEvent;
+import challenger.purple.model.response.AccountResponse;
 import challenger.purple.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
 @Component
@@ -17,11 +16,10 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     @EventListener
     public void processEvent(AccountEvent accountEvent){
-        executorService.execute(() -> execute(accountEvent));
+        execute(accountEvent);
     }
 
     private void execute(AccountEvent accountEvent) {
@@ -30,7 +28,8 @@ public class AccountController {
         if(account.getAvailableLimit() < 0L)
             account.setAvailableLimit(0L);
 
-        accountService.save(account);
+        AccountResponse accountResponse = accountService.save(account);
+        System.out.println(Util.objectToJson(accountResponse));
     }
 
 }

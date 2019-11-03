@@ -1,25 +1,28 @@
 package challenger.purple.controller;
 
+import challenger.purple.Util.Util;
 import challenger.purple.model.event.TransactionEvent;
+import challenger.purple.model.response.AccountResponse;
 import challenger.purple.service.TransactionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 
 @Component
 public class TransactionController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     @Autowired
     private TransactionService transactionService;
-    private ExecutorService executorService = Executors.newFixedThreadPool(5);
 
 
     @EventListener
     public void processEvent(TransactionEvent transactionEvent){
-        executorService.execute(() -> transactionService.createTransaction(transactionEvent.getTransaction()));
+        AccountResponse accountResponse = transactionService.createTransaction(transactionEvent.getTransaction());
+        System.out.println(Util.objectToJson(accountResponse));
     }
 }

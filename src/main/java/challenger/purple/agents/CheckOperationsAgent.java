@@ -7,6 +7,8 @@ import challenger.purple.model.Transaction;
 import challenger.purple.model.event.AccountEvent;
 import challenger.purple.model.event.TransactionEvent;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationEventPublisher;
@@ -25,6 +27,8 @@ public class CheckOperationsAgent {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
 
     @Scheduled(initialDelayString = "${scheduler.initial}", fixedRateString = "${scheduler.fixedRate}")
@@ -33,14 +37,14 @@ public class CheckOperationsAgent {
             Path operationsFile = Paths.get("operations");
             Files.lines(operationsFile).forEach(this::getOperations);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info("Arquivo de operações não encontrado");
         }
     }
 
     private void getOperations(String folder) {
         if(!StringUtils.isEmpty(folder)){
             JsonNode jsonNode = Util.getJsonNode(folder);
-            if(jsonNode != null && !jsonNode.get("account").isNull()){
+            if(jsonNode != null && jsonNode.get("account") != null){
                 AccountEvent accountEvent = new AccountEvent(this);
                 getAccount(accountEvent, jsonNode);
                 applicationEventPublisher.publishEvent(accountEvent);

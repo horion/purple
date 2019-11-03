@@ -26,7 +26,7 @@ public class PurpleApplication implements CommandLineRunner {
 
         SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
 
-        eventMulticaster.setTaskExecutor(Executors.newFixedThreadPool(20));
+        eventMulticaster.setTaskExecutor(Executors.newFixedThreadPool(1));
 
         return eventMulticaster;
     }

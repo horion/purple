@@ -18,7 +18,8 @@ public class AccountPersistenceImpl implements Persistence<Account> {
 
     @Override
     public Account merge(Account account) {
-        return this.account.put(1, account);
+        this.account.put(1, account);
+        return this.getById(1);
     }
 
     @Override

@@ -31,8 +31,10 @@ public class TransactionServiceImpl implements TransactionService {
 
         AccountResponse validation = configureValidator.validation();
 
-        if(validation.getViolations() == null || validation.getViolations().isEmpty())
-            accountService.updateLimit(1, transaction.getAmount());
+        if(validation.getViolations() == null || validation.getViolations().isEmpty()) {
+            Account resultUpdate =  accountService.updateLimit(1, transaction.getAmount());
+            validation.setAvailableLimit(resultUpdate.getAvailableLimit());
+        }
 
         return validation;
     }
