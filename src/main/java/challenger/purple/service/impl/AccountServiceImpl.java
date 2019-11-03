@@ -25,7 +25,7 @@ public class AccountServiceImpl implements AccountService {
             Account saved = this.persistence.merge(account);
             return new AccountResponse(saved);
         }else{
-            AccountResponse accountResponse = new AccountResponse(account);
+            AccountResponse accountResponse = new AccountResponse(accountPersistence);
             accountResponse.setViolations(EnumAccountViolations.ACCOUNT_ALREADY_INITIALIZED);
             return accountResponse;
         }
