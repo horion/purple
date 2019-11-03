@@ -7,6 +7,7 @@ import challenger.purple.model.response.AccountResponse;
 import challenger.purple.validations.Validations;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -30,7 +31,7 @@ public class TransactionSameMerchant implements Validations<AccountResponse, Map
             }
         }
         if(count.get() > 0){
-            accountResponse.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
+            accountResponse.setViolations(Collections.singletonList(EnumAccountViolations.DOUBLE_TRANSACTION));
         }
 
         return nextValidator.validation(accountResponse,transactionModelMap);

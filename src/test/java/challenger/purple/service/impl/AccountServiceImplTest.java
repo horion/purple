@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -42,7 +44,7 @@ class AccountServiceImplTest {
         AccountResponse expected = new AccountResponse(account);
 
         AccountResponse expected2 = new AccountResponse(account);
-        expected2.setViolations(EnumAccountViolations.ACCOUNT_ALREADY_INITIALIZED);
+        expected2.setViolations(Collections.singletonList(EnumAccountViolations.ACCOUNT_ALREADY_INITIALIZED));
 
 
         AccountResponse result = accountService.save(account) ;

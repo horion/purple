@@ -5,6 +5,8 @@ import challenger.purple.model.enums.EnumAccountViolations;
 import challenger.purple.model.response.AccountResponse;
 import challenger.purple.validations.Validations;
 
+import java.util.Collections;
+
 public class AccountCreationValidator implements Validations<AccountResponse,Account> {
 
     private Validations nextValidator;
@@ -12,7 +14,7 @@ public class AccountCreationValidator implements Validations<AccountResponse,Acc
     @Override
     public AccountResponse validation(AccountResponse accountResponse,Account account) {
         if(accountResponse.getAccount() != null){
-            accountResponse.setViolations(EnumAccountViolations.ACCOUNT_ALREADY_INITIALIZED);
+            accountResponse.setViolations(Collections.singletonList(EnumAccountViolations.ACCOUNT_ALREADY_INITIALIZED));
             return accountResponse;
         }
         accountResponse.setAccount(account);

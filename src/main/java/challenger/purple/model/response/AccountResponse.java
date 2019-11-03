@@ -21,9 +21,8 @@ public class AccountResponse implements Serializable {
 
 
     public List<EnumAccountViolations> getViolations() {
-        if(violations == null){
-            violations = new ArrayList<>();
-        }
+        if(this.violations == null)
+            this.violations = new ArrayList<>();
         return violations;
     }
 
@@ -32,8 +31,8 @@ public class AccountResponse implements Serializable {
         this.getViolations();
     }
 
-    public AccountResponse setViolations(EnumAccountViolations violations) {
-        this.getViolations().add(violations);
+    public AccountResponse setViolations(List<EnumAccountViolations> violations) {
+        this.violations = violations;
         return this;
     }
 

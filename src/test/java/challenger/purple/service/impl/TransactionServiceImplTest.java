@@ -8,6 +8,7 @@ import challenger.purple.persistence.impl.TransactionPersistenceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -73,7 +74,7 @@ class TransactionServiceImplTest {
 
         when(accountService.updateLimit(1,20L)).thenReturn(account2);
 
-        expected.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
+        expected.setViolations(Collections.singletonList(EnumAccountViolations.DOUBLE_TRANSACTION));
 
         when(persistence.get()).thenReturn(map);
 
@@ -188,7 +189,7 @@ class TransactionServiceImplTest {
         when(accountService.updateLimit(1,10L)).thenReturn(account4);
 
 
-        expected.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
+        expected.setViolations(Collections.singletonList(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL));
 
         AccountResponse result4 = transactionService.createTransaction(transaction);
         assertEquals(expected,result4);
@@ -220,7 +221,7 @@ class TransactionServiceImplTest {
         Transaction transaction2 = new Transaction("Burger King", 20L, "2019-02-13T10:03:00.000Z");
         map.put(map.size()+1, transaction2);
 
-        expected.setViolations(EnumAccountViolations.INSUFFICIENT_LIMIT);
+        expected.setViolations(Collections.singletonList(EnumAccountViolations.INSUFFICIENT_LIMIT));
 
         when(persistence.get()).thenReturn(map);
 

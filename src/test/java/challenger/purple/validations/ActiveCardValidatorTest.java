@@ -8,6 +8,7 @@ import challenger.purple.validations.transaction.ActiveCardValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -42,7 +43,7 @@ class ActiveCardValidatorTest {
         Account account = new Account(false, 100L);
         AccountResponse accountResponse = new AccountResponse(account);
         AccountResponse accountResponseExpected = new AccountResponse(account);
-        accountResponseExpected.setViolations(EnumAccountViolations.CARD_NOT_ACTIVE);
+        accountResponseExpected.setViolations(Collections.singletonList(EnumAccountViolations.CARD_NOT_ACTIVE));
 
 
         AccountResponse a = activeCardValidator.validation(accountResponse,map);
@@ -66,7 +67,7 @@ class ActiveCardValidatorTest {
         Account account = new Account(true, 100L);
         AccountResponse accountResponse = new AccountResponse(account);
         AccountResponse accountResponseExpected = new AccountResponse(account);
-        accountResponseExpected.setViolations(EnumAccountViolations.CARD_NOT_ACTIVE);
+        accountResponseExpected.setViolations(Collections.singletonList(EnumAccountViolations.CARD_NOT_ACTIVE));
 
         AccountResponse a = activeCardValidator.validation(accountResponse,map);
         assertNotEquals(accountResponseExpected,a);

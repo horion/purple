@@ -8,6 +8,7 @@ import challenger.purple.validations.transaction.LimitCardValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -43,7 +44,7 @@ class LimitCardValidatorTest {
     void validationInsufficientLimit() {
         AccountResponse accountResponse = new AccountResponse(account);
         AccountResponse accountResponseExpected = new AccountResponse(account);
-        accountResponseExpected.setViolations(EnumAccountViolations.INSUFFICIENT_LIMIT);
+        accountResponseExpected.setViolations(Collections.singletonList(EnumAccountViolations.INSUFFICIENT_LIMIT));
         Transaction transaction = new Transaction("Burger King", 110L, "2019-02-13T10:00:00.000Z");
         map.put(1, transaction);
 
@@ -66,7 +67,7 @@ class LimitCardValidatorTest {
         Account account = new Account(true, 0L);
         AccountResponse accountResponse = new AccountResponse(account);
         AccountResponse accountResponseExpected = new AccountResponse(account);
-        accountResponseExpected.setViolations(EnumAccountViolations.INSUFFICIENT_LIMIT);
+        accountResponseExpected.setViolations(Collections.singletonList(EnumAccountViolations.INSUFFICIENT_LIMIT));
 
         Transaction transaction = new Transaction("Burger King", 100L, "2019-02-13T10:00:00.000Z");
         map.put(1, transaction);

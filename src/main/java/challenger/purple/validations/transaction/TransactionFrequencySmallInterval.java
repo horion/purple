@@ -8,6 +8,7 @@ import challenger.purple.validations.Validations;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -29,7 +30,7 @@ public class TransactionFrequencySmallInterval implements Validations<AccountRes
             }
         }
         if(count.get() > 3){
-            accountResponse.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
+            accountResponse.setViolations(Collections.singletonList(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL));
             return accountResponse;
         }
         return nextValidator.validation(accountResponse,transactionModelMap);

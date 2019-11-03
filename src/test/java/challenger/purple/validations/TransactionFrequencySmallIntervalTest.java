@@ -8,6 +8,7 @@ import challenger.purple.validations.transaction.TransactionFrequencySmallInterv
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -107,7 +108,7 @@ class TransactionFrequencySmallIntervalTest {
     void validationFourTransactionFailed() {
         AccountResponse accountResponse = new AccountResponse(account);
         AccountResponse accountResponseExpected = new AccountResponse(account);
-        accountResponseExpected.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
+        accountResponseExpected.setViolations(Collections.singletonList(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL));
 
         Transaction transaction = new Transaction("Burger King", 30L, "2019-02-13T10:01:00.000Z");
         map.put(1, transaction);

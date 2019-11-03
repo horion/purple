@@ -8,6 +8,8 @@ import challenger.purple.validations.transaction.TransactionSameMerchant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -50,21 +52,37 @@ class TransactionSameMerchantTest {
     void validationFailed() {
         AccountResponse accountResponse = new AccountResponse(account);
         AccountResponse accountResponseExpected = new AccountResponse(account);
-        accountResponseExpected.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
 
-        Transaction transaction = new Transaction("Burger King", 30L, "2019-02-13T10:01:01.000Z");
+        /*{ "transaction": { "merchant": "Habbib's", "amount": 30, "time": "2019-02-13T11:00:00.000Z" } }
+        { "transaction": { "merchant": "Habbib's", "amount": 30, "time": "2019-02-13T11:00:00.000Z" } }
+        { "transaction": { "merchant": "Habbib's", "amount": 25, "time": "2019-02-13T11:00:00.000Z" } }*/
+
+        Transaction transaction = new Transaction("Habbib's", 30L, "2019-02-13T11:00:00.000Z");
         map.put(1, transaction);
 
-        Transaction transaction2 = new Transaction("Gildo Lanches", 100L, "2019-02-13T10:01:02.000Z");
+        AccountResponse a2 = transactionSameMerchant.validation(accountResponse,map);
+        assertEquals(accountResponseExpected,a2);
+
+        accountResponseExpected.setViolations(Collections.singletonList(EnumAccountViolations.DOUBLE_TRANSACTION));
+
+        Transaction transaction2 = new Transaction("Habbib's", 30L, "2019-02-13T11:00:00.000Z");
         map.put(2, transaction2);
 
-        Transaction transaction3 = new Transaction("Gildo Lanches", 100L, "2019-02-13T10:01:03.000Z");
+        a2 = transactionSameMerchant.validation(accountResponse,map);
+        assertEquals(accountResponseExpected,a2);
+
+        Transaction transaction3 = new Transaction("Habbib's", 25L, "2019-02-13T11:00:00.000Z");
         map.put(3, transaction3);
+
+        accountResponseExpected.setViolations(new ArrayList<>());
+
+        a2 = transactionSameMerchant.validation(accountResponse,map);
+        assertEquals(accountResponseExpected,a2);
 
         Transaction transaction4 = new Transaction("Burger King", 30L, "2019-02-13T10:02:00.000Z");
         map.put(4, transaction4);
 
-        AccountResponse a2 = transactionSameMerchant.validation(accountResponse,map);
+        a2 = transactionSameMerchant.validation(accountResponse,map);
         assertEquals(accountResponseExpected,a2);
     }
 
@@ -87,7 +105,7 @@ class TransactionSameMerchantTest {
     void validationTimeDifferentSuccess() {
         AccountResponse accountResponse = new AccountResponse(account);
         AccountResponse accountResponseExpected = new AccountResponse(account);
-        accountResponseExpected.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
+        accountResponseExpected.setViolations(Collections.singletonList(EnumAccountViolations.DOUBLE_TRANSACTION));
 
 
         Transaction transaction = new Transaction("Burger King", 100L, "2019-02-13T10:01:02.000Z");
