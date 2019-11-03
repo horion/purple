@@ -54,7 +54,7 @@ public class AccountResponse implements Serializable {
     @Override
     public String toString() {
         return "{" +
-                "account=" + account +
+                "account:" + account +
                 '}'+", violations: "+ violations.toString()+"}";
     }
 
