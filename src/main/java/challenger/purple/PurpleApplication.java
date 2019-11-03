@@ -1,7 +1,5 @@
 package challenger.purple;
 
-import challenger.purple.controller.PurpleController;
-import challenger.purple.model.event.TransactionEvent;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,9 +7,13 @@ import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguratio
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.event.SimpleApplicationEventMulticaster;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.concurrent.Executors;
 
+@EnableAsync
+@EnableScheduling
 @SpringBootApplication(exclude = {WebMvcAutoConfiguration.class,})
 public class PurpleApplication implements CommandLineRunner {
 
@@ -30,14 +32,8 @@ public class PurpleApplication implements CommandLineRunner {
     }
 
 
-    @Bean
-    public PurpleController purpleController(){
-        return new PurpleController();
-    }
-
     @Override
-    public void run(String... args) throws Exception {
-        purpleController().startProcess(args);
+    public void run(String... args) {
     }
 
 
