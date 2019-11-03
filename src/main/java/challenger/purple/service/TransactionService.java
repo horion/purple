@@ -1,10 +1,10 @@
 package challenger.purple.service;
 
-import challenger.purple.model.TransactionModel;
-import challenger.purple.model.response.AccountResponseModel;
+import challenger.purple.model.Transaction;
+import challenger.purple.model.response.AccountResponse;
 
 public interface TransactionService {
 
-    AccountResponseModel createTransaction(TransactionModel transactionModel);
+    AccountResponse createTransaction(Transaction transaction);
 
 }

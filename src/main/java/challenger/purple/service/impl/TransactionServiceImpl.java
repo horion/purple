@@ -1,15 +1,16 @@
 package challenger.purple.service.impl;
 
-import challenger.purple.model.AccountModel;
-import challenger.purple.model.TransactionModel;
-import challenger.purple.model.response.AccountResponseModel;
+import challenger.purple.model.Account;
+import challenger.purple.model.Transaction;
+import challenger.purple.model.response.AccountResponse;
 import challenger.purple.persistence.impl.TransactionPersistenceImpl;
+import challenger.purple.service.TransactionService;
 import challenger.purple.validations.ConfigureValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TransactionServiceImpl {
+public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionPersistenceImpl persistence;
     private final AccountServiceImpl accountService;
@@ -20,17 +21,18 @@ public class TransactionServiceImpl {
         this.accountService = accountService;
     }
 
-    public AccountResponseModel createTransaction(TransactionModel transactionModel){
-        AccountModel account = this.accountService.getAccount(1);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(account);
-        persistence.merge(transactionModel);
+    @Override
+    public AccountResponse createTransaction(Transaction transaction){
+        Account account = this.accountService.getAccount(1);
+        AccountResponse accountResponse = new AccountResponse(account);
+        persistence.merge(transaction);
 
-        ConfigureValidator configureValidator = new ConfigureValidator(accountResponseModel,persistence.get());
+        ConfigureValidator configureValidator = new ConfigureValidator(accountResponse,persistence.get());
 
-        AccountResponseModel validation = configureValidator.validation();
+        AccountResponse validation = configureValidator.validation();
 
         if(validation.getViolations() == null || validation.getViolations().isEmpty())
-            accountService.updateLimit(1,transactionModel.getAmount());
+            accountService.updateLimit(1, transaction.getAmount());
 
         return validation;
     }

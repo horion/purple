@@ -1,14 +1,13 @@
 package challenger.purple.service.impl;
 
-import challenger.purple.model.AccountModel;
-import challenger.purple.model.TransactionModel;
+import challenger.purple.model.Account;
+import challenger.purple.model.Transaction;
 import challenger.purple.model.enums.EnumAccountViolations;
-import challenger.purple.model.response.AccountResponseModel;
+import challenger.purple.model.response.AccountResponse;
 import challenger.purple.persistence.impl.TransactionPersistenceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -18,10 +17,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class TransactionServiceImplTest {
-    private Map<Integer,TransactionModel> map = new TreeMap<>();
+    private Map<Integer, Transaction> map = new TreeMap<>();
     private TransactionServiceImpl transactionService;
-    private TransactionModel transactionModel;
-    private AccountModel account;
+    private Transaction transaction;
+    private Account account;
     private TransactionPersistenceImpl persistence;
     private AccountServiceImpl accountService;
 
@@ -31,43 +30,43 @@ class TransactionServiceImplTest {
         persistence = mock(TransactionPersistenceImpl.class);
         accountService = mock(AccountServiceImpl.class);
         transactionService = new TransactionServiceImpl(persistence, accountService);
-        account = new AccountModel(true, 100L);
+        account = new Account(true, 100L);
         when(accountService.getAccount(1)).thenReturn(account);
-        transactionModel = new TransactionModel("Burger King", 20L, "2019-02-13T10:00:00.000Z");
-        when(persistence.merge(eq(transactionModel))).thenReturn(transactionModel);
+        transaction = new Transaction("Burger King", 20L, "2019-02-13T10:00:00.000Z");
+        when(persistence.merge(eq(transaction))).thenReturn(transaction);
     }
 
     @Test
     void createTransaction() {
-        TransactionModel transactionModel = new TransactionModel("Burger King", 20L, "2019-02-13T10:01:00.000Z");
-        map.put(map.size()+1,transactionModel);
+        Transaction transaction = new Transaction("Burger King", 20L, "2019-02-13T10:01:00.000Z");
+        map.put(map.size()+1, transaction);
 
         when(persistence.get()).thenReturn(map);
 
-        AccountResponseModel expected = new AccountResponseModel(account);
-        AccountResponseModel result = transactionService.createTransaction(transactionModel);
+        AccountResponse expected = new AccountResponse(account);
+        AccountResponse result = transactionService.createTransaction(transaction);
         assertEquals(expected,result);
 
     }
 
     @Test
     void createTransactionSameMerchantFailed() {
-        AccountResponseModel expected = new AccountResponseModel(account);
-        TransactionModel transactionModel = new TransactionModel("Burger King", 20L, "2019-02-13T10:01:00.000Z");
-        map.put(map.size()+1,transactionModel);
+        AccountResponse expected = new AccountResponse(account);
+        Transaction transaction = new Transaction("Burger King", 20L, "2019-02-13T10:01:00.000Z");
+        map.put(map.size()+1, transaction);
         when(persistence.get()).thenReturn(map);
 
-        AccountResponseModel result = transactionService.createTransaction(transactionModel);
+        AccountResponse result = transactionService.createTransaction(transaction);
         assertEquals(expected,result);
 
-        TransactionModel transactionModel2 = new TransactionModel("Burger King", 20L, "2019-02-13T10:01:00.000Z");
-        map.put(map.size()+1,transactionModel2);
+        Transaction transaction2 = new Transaction("Burger King", 20L, "2019-02-13T10:01:00.000Z");
+        map.put(map.size()+1, transaction2);
 
         expected.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
 
         when(persistence.get()).thenReturn(map);
 
-        AccountResponseModel result2 = transactionService.createTransaction(transactionModel);
+        AccountResponse result2 = transactionService.createTransaction(transaction);
         assertEquals(expected,result2);
 
     }
@@ -75,40 +74,40 @@ class TransactionServiceImplTest {
 
     @Test
     void createTransactionSameMerchantTimeSuccess() {
-        AccountResponseModel expected = new AccountResponseModel(account);
-        TransactionModel transactionModel = new TransactionModel("Burger King", 20L, "2019-02-13T10:01:00.000Z");
-        map.put(map.size()+1,transactionModel);
+        AccountResponse expected = new AccountResponse(account);
+        Transaction transaction = new Transaction("Burger King", 20L, "2019-02-13T10:01:00.000Z");
+        map.put(map.size()+1, transaction);
         when(persistence.get()).thenReturn(map);
 
-        AccountResponseModel result = transactionService.createTransaction(transactionModel);
+        AccountResponse result = transactionService.createTransaction(transaction);
         assertEquals(expected,result);
 
-        TransactionModel transactionModel2 = new TransactionModel("Burger King", 20L, "2019-02-13T10:03:01.000Z");
-        map.put(map.size()+1,transactionModel2);
+        Transaction transaction2 = new Transaction("Burger King", 20L, "2019-02-13T10:03:01.000Z");
+        map.put(map.size()+1, transaction2);
 
         when(persistence.get()).thenReturn(map);
 
-        AccountResponseModel result2 = transactionService.createTransaction(transactionModel);
+        AccountResponse result2 = transactionService.createTransaction(transaction);
         assertEquals(expected,result2);
 
     }
 
     @Test
     void createTransactionSameMerchantAmountSuccess() {
-        AccountResponseModel expected = new AccountResponseModel(account);
-        TransactionModel transactionModel = new TransactionModel("Burger King", 30L, "2019-02-13T10:01:00.000Z");
-        map.put(map.size()+1,transactionModel);
+        AccountResponse expected = new AccountResponse(account);
+        Transaction transaction = new Transaction("Burger King", 30L, "2019-02-13T10:01:00.000Z");
+        map.put(map.size()+1, transaction);
         when(persistence.get()).thenReturn(map);
 
-        AccountResponseModel result = transactionService.createTransaction(transactionModel);
+        AccountResponse result = transactionService.createTransaction(transaction);
         assertEquals(expected,result);
 
-        TransactionModel transactionModel2 = new TransactionModel("Burger King", 20L, "2019-02-13T10:03:01.000Z");
-        map.put(map.size()+1,transactionModel2);
+        Transaction transaction2 = new Transaction("Burger King", 20L, "2019-02-13T10:03:01.000Z");
+        map.put(map.size()+1, transaction2);
 
         when(persistence.get()).thenReturn(map);
 
-        AccountResponseModel result2 = transactionService.createTransaction(transactionModel);
+        AccountResponse result2 = transactionService.createTransaction(transaction);
         assertEquals(expected,result2);
 
     }
@@ -116,52 +115,52 @@ class TransactionServiceImplTest {
 
     @Test
     void createTransactionHighFrequecnyFailed() {
-        AccountResponseModel expected = new AccountResponseModel(account);
+        AccountResponse expected = new AccountResponse(account);
 
-        TransactionModel transactionModel = new TransactionModel("Burger King", 20L, "2019-02-13T10:01:00.000Z");
-        map.put(map.size()+1,transactionModel);
+        Transaction transaction = new Transaction("Burger King", 20L, "2019-02-13T10:01:00.000Z");
+        map.put(map.size()+1, transaction);
         when(persistence.get()).thenReturn(map);
 
-        AccountResponseModel result = transactionService.createTransaction(transactionModel);
+        AccountResponse result = transactionService.createTransaction(transaction);
         assertEquals(expected,result);
 
-        TransactionModel transactionModel2 = new TransactionModel("Burger King", 30L, "2019-02-13T10:01:00.000Z");
-        map.put(map.size()+1,transactionModel2);
+        Transaction transaction2 = new Transaction("Burger King", 30L, "2019-02-13T10:01:00.000Z");
+        map.put(map.size()+1, transaction2);
 
         when(persistence.get()).thenReturn(map);
 
-        AccountResponseModel result2 = transactionService.createTransaction(transactionModel);
+        AccountResponse result2 = transactionService.createTransaction(transaction);
         assertEquals(expected,result2);
 
 
-        TransactionModel transactionModel3 = new TransactionModel("Gildo Lanches", 40L, "2019-02-13T10:05:00.000Z");
-        map.put(map.size()+1,transactionModel3);
+        Transaction transaction3 = new Transaction("Gildo Lanches", 40L, "2019-02-13T10:05:00.000Z");
+        map.put(map.size()+1, transaction3);
         when(persistence.get()).thenReturn(map);
 
-        AccountResponseModel result3 = transactionService.createTransaction(transactionModel);
+        AccountResponse result3 = transactionService.createTransaction(transaction);
         assertEquals(expected,result3);
 
-        TransactionModel transactionModel4 = new TransactionModel("Bar da Veia", 10L, "2019-02-13T10:03:00.000Z");
-        map.put(map.size()+1,transactionModel4);
+        Transaction transaction4 = new Transaction("Bar da Veia", 10L, "2019-02-13T10:03:00.000Z");
+        map.put(map.size()+1, transaction4);
         when(persistence.get()).thenReturn(map);
 
         expected.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
 
-        AccountResponseModel result4 = transactionService.createTransaction(transactionModel);
+        AccountResponse result4 = transactionService.createTransaction(transaction);
         assertEquals(expected,result4);
 
     }
 
     @Test
     void createTransactionLimitFailed() {
-        AccountModel account2 = new AccountModel(true, 100L);
+        Account account2 = new Account(true, 100L);
 
-        AccountResponseModel expected = new AccountResponseModel(account2);
-        TransactionModel transactionModel = new TransactionModel("Burger King", 90L, "2019-02-13T10:01:00.000Z");
-        map.put(map.size()+1,transactionModel);
+        AccountResponse expected = new AccountResponse(account2);
+        Transaction transaction = new Transaction("Burger King", 90L, "2019-02-13T10:01:00.000Z");
+        map.put(map.size()+1, transaction);
         when(persistence.get()).thenReturn(map);
 
-        AccountResponseModel result = transactionService.createTransaction(transactionModel);
+        AccountResponse result = transactionService.createTransaction(transaction);
 
         assertEquals(expected,result);
 
@@ -169,14 +168,14 @@ class TransactionServiceImplTest {
 
         when(accountService.getAccount(1)).thenReturn(account2);
 
-        TransactionModel transactionModel2 = new TransactionModel("Burger King", 20L, "2019-02-13T10:03:00.000Z");
-        map.put(map.size()+1,transactionModel2);
+        Transaction transaction2 = new Transaction("Burger King", 20L, "2019-02-13T10:03:00.000Z");
+        map.put(map.size()+1, transaction2);
 
         expected.setViolations(EnumAccountViolations.INSUFFICIENT_LIMIT);
 
         when(persistence.get()).thenReturn(map);
 
-        AccountResponseModel result2 = transactionService.createTransaction(transactionModel);
+        AccountResponse result2 = transactionService.createTransaction(transaction);
         assertEquals(expected,result2);
 
     }

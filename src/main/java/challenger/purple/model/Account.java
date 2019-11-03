@@ -3,17 +3,17 @@ package challenger.purple.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class AccountModel implements Serializable {
+public class Account implements Serializable {
     private static final long serialVersionUID = -5891953921719208748L;
 
     private boolean activeCard;
     private Long availableLimit;
 
-    public AccountModel(){
+    public Account(){
 
     }
 
-    public AccountModel(boolean activeCard, Long availableLimit) {
+    public Account(boolean activeCard, Long availableLimit) {
         this.activeCard = activeCard;
         this.availableLimit = availableLimit;
     }
@@ -22,7 +22,7 @@ public class AccountModel implements Serializable {
         return availableLimit;
     }
 
-    public AccountModel setAvailableLimit(Long availableLimit) {
+    public Account setAvailableLimit(Long availableLimit) {
         this.availableLimit = availableLimit;
         return this;
     }
@@ -31,7 +31,7 @@ public class AccountModel implements Serializable {
         return activeCard;
     }
 
-    public AccountModel setActiveCard(boolean activeCard) {
+    public Account setActiveCard(boolean activeCard) {
         this.activeCard = activeCard;
         return this;
     }
@@ -40,7 +40,7 @@ public class AccountModel implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AccountModel that = (AccountModel) o;
+        Account that = (Account) o;
         return activeCard == that.activeCard &&
                 Objects.equals(availableLimit, that.availableLimit);
     }

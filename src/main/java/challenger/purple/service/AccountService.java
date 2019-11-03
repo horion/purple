@@ -1,14 +1,14 @@
 package challenger.purple.service;
 
-import challenger.purple.model.AccountModel;
-import challenger.purple.model.response.AccountResponseModel;
+import challenger.purple.model.Account;
+import challenger.purple.model.response.AccountResponse;
 
 public interface AccountService {
 
-    AccountResponseModel save(AccountModel accountModel);
+    AccountResponse save(Account account);
 
-    AccountModel getAccount(Integer id);
+    Account getAccount(Integer id);
 
-    AccountModel updateLimit(Integer id, Long amount);
+    Account updateLimit(Integer id, Long amount);
 
 }

@@ -1,8 +1,8 @@
 package challenger.purple.validations;
 
-import challenger.purple.model.response.AccountResponseModel;
+import challenger.purple.model.response.AccountResponse;
 
 public interface Validations<T,K> {
 
-    AccountResponseModel validation(T o, K v);
+    AccountResponse validation(T o, K v);
 }

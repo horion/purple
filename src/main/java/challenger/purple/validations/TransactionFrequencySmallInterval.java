@@ -1,9 +1,9 @@
 package challenger.purple.validations;
 
 import challenger.purple.Util.Util;
-import challenger.purple.model.TransactionModel;
+import challenger.purple.model.Transaction;
 import challenger.purple.model.enums.EnumAccountViolations;
-import challenger.purple.model.response.AccountResponseModel;
+import challenger.purple.model.response.AccountResponse;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -13,13 +13,13 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class TransactionFrequencySmallInterval implements Validations<AccountResponseModel, Map<Integer, TransactionModel>> {
+public class TransactionFrequencySmallInterval implements Validations<AccountResponse, Map<Integer, Transaction>> {
 
     private Validations nextValidator;
     private AtomicLong count;
 
     @Override
-    public AccountResponseModel validation(AccountResponseModel accountResponseModel, Map<Integer, TransactionModel> transactionModelMap) {
+    public AccountResponse validation(AccountResponse accountResponse, Map<Integer, Transaction> transactionModelMap) {
         count = new AtomicLong(0);
         List<LocalDateTime>  transactionsDate = transactionModelMap.values().stream().map(getTime()).collect(Collectors.toList());
         for (int i = 0; i < transactionsDate.size()-1; i++) {
@@ -28,13 +28,13 @@ public class TransactionFrequencySmallInterval implements Validations<AccountRes
             }
         }
         if(count.get() > 3){
-            accountResponseModel.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
-            return accountResponseModel;
+            accountResponse.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
+            return accountResponse;
         }
-        return nextValidator.validation(accountResponseModel,transactionModelMap);
+        return nextValidator.validation(accountResponse,transactionModelMap);
     }
 
-    private Function<TransactionModel, LocalDateTime> getTime() {
+    private Function<Transaction, LocalDateTime> getTime() {
         return transactionModel ->
                 Util.convertStringDateToLocalDateTime(transactionModel.getTime());
     }

@@ -1,15 +1,15 @@
 package challenger.purple.validations;
 
 import challenger.purple.Util.Util;
-import challenger.purple.model.TransactionModel;
+import challenger.purple.model.Transaction;
 import challenger.purple.model.enums.EnumAccountViolations;
-import challenger.purple.model.response.AccountResponseModel;
+import challenger.purple.model.response.AccountResponse;
 
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class TransactionSameMerchant implements Validations<AccountResponseModel, Map<Integer, TransactionModel>> {
+public class TransactionSameMerchant implements Validations<AccountResponse, Map<Integer, Transaction>> {
     private Validations nextValidator;
 
     Validations setNextValidtor(Validations nextValidtor) {
@@ -18,7 +18,7 @@ public class TransactionSameMerchant implements Validations<AccountResponseModel
     }
 
     @Override
-    public AccountResponseModel validation(AccountResponseModel accountResponseModel, Map<Integer, TransactionModel> transactionModelMap) {
+    public AccountResponse validation(AccountResponse accountResponse, Map<Integer, Transaction> transactionModelMap) {
         AtomicLong count = new AtomicLong(0);
 
         for (int i = 0; i < transactionModelMap.values().size()-1; i++) {
@@ -29,18 +29,18 @@ public class TransactionSameMerchant implements Validations<AccountResponseModel
             }
         }
         if(count.get() > 0){
-            accountResponseModel.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
+            accountResponse.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
         }
 
-        return nextValidator.validation(accountResponseModel,transactionModelMap);
+        return nextValidator.validation(accountResponse,transactionModelMap);
     }
 
-    private boolean isEquals(Map<Integer, TransactionModel> transactionModelMap, int i, int j) {
+    private boolean isEquals(Map<Integer, Transaction> transactionModelMap, int i, int j) {
         return transactionModelMap.get(i+1).equals(transactionModelMap.get(j+1));
     }
 
 
-    private boolean compareDuration(TransactionModel previus, TransactionModel next){
+    private boolean compareDuration(Transaction previus, Transaction next){
         Duration duration = Duration.between(Util.convertStringDateToLocalDateTime(previus.getTime()),Util.convertStringDateToLocalDateTime(next.getTime()));
         return duration.getSeconds() <= 120;
     }

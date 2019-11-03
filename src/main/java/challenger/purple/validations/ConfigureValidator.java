@@ -1,18 +1,18 @@
 package challenger.purple.validations;
 
-import challenger.purple.model.TransactionModel;
-import challenger.purple.model.response.AccountResponseModel;
+import challenger.purple.model.Transaction;
+import challenger.purple.model.response.AccountResponse;
 
 import java.util.Map;
 
 public class ConfigureValidator {
 
     private  ActiveCardValidator activeCardValidator;
-    private AccountResponseModel accountModel;
-    private Map<Integer, TransactionModel> transactionModel;
+    private AccountResponse accountModel;
+    private Map<Integer, Transaction> transactionModel;
 
 
-    public ConfigureValidator(AccountResponseModel accountModel, Map<Integer, TransactionModel> transactionModel) {
+    public ConfigureValidator(AccountResponse accountModel, Map<Integer, Transaction> transactionModel) {
         this.init();
         this.accountModel = accountModel;
         this.transactionModel = transactionModel;
@@ -31,7 +31,7 @@ public class ConfigureValidator {
 
     }
 
-    public AccountResponseModel validation(){
+    public AccountResponse validation(){
         return activeCardValidator.validation(accountModel,transactionModel);
     }
 

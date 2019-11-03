@@ -1,10 +1,16 @@
 package challenger.purple.Util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Util {
 
@@ -21,4 +27,15 @@ public class Util {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
     }
+
+    public static JsonNode getJsonNode(String json) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readTree(json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

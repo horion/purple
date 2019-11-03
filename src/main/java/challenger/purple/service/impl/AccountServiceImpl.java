@@ -1,8 +1,8 @@
 package challenger.purple.service.impl;
 
-import challenger.purple.model.AccountModel;
+import challenger.purple.model.Account;
 import challenger.purple.model.enums.EnumAccountViolations;
-import challenger.purple.model.response.AccountResponseModel;
+import challenger.purple.model.response.AccountResponse;
 import challenger.purple.persistence.impl.AccountPersistenceImpl;
 import challenger.purple.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,32 +19,32 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountResponseModel save(AccountModel accountModel) {
-        AccountModel accountPersistence = this.persistence.getById(1);
+    public AccountResponse save(Account account) {
+        Account accountPersistence = this.persistence.getById(1);
         if(accountPersistence == null) {
-            AccountModel saved = this.persistence.merge(accountModel);
-            return new AccountResponseModel(saved);
+            Account saved = this.persistence.merge(account);
+            return new AccountResponse(saved);
         }else{
-            AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
-            accountResponseModel.setViolations(EnumAccountViolations.ACCOUNT_ALREADY_INITIALIZED);
-            return accountResponseModel;
+            AccountResponse accountResponse = new AccountResponse(account);
+            accountResponse.setViolations(EnumAccountViolations.ACCOUNT_ALREADY_INITIALIZED);
+            return accountResponse;
         }
     }
 
     @Override
-    public AccountModel getAccount(Integer id) {
+    public Account getAccount(Integer id) {
         return this.persistence.getById(id);
     }
 
     @Override
-    public AccountModel updateLimit(Integer id, Long amount) {
-        AccountModel accountModel = this.getAccount(id);
-        long availableLimit = accountModel.getAvailableLimit() - amount;
+    public Account updateLimit(Integer id, Long amount) {
+        Account account = this.getAccount(id);
+        long availableLimit = account.getAvailableLimit() - amount;
         if(availableLimit < 0)
             availableLimit = 0;
-        accountModel.setAvailableLimit(availableLimit);
-        persistence.merge(accountModel);
-        return accountModel;
+        account.setAvailableLimit(availableLimit);
+        persistence.merge(account);
+        return account;
     }
 
 }

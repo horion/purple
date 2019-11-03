@@ -1,20 +1,12 @@
 package challenger.purple.service.impl;
 
-import challenger.purple.model.AccountModel;
+import challenger.purple.model.Account;
 import challenger.purple.model.enums.EnumAccountViolations;
-import challenger.purple.model.response.AccountResponseModel;
+import challenger.purple.model.response.AccountResponse;
 import challenger.purple.persistence.impl.AccountPersistenceImpl;
-import challenger.purple.service.AccountService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
@@ -25,42 +17,42 @@ class AccountServiceImplTest {
 
     @Mock
     AccountPersistenceImpl accountPersistence;
-    private AccountModel accountModel;
+    private Account account;
     private AccountServiceImpl accountService;
 
 
     @BeforeEach
     void init(){
         accountPersistence = mock(AccountPersistenceImpl.class);
-        accountModel = new AccountModel(true,100L);
+        account = new Account(true,100L);
         accountService = new AccountServiceImpl(accountPersistence);
-        when(accountPersistence.merge(eq(accountModel))).thenReturn(accountModel);
+        when(accountPersistence.merge(eq(account))).thenReturn(account);
 
     }
 
     @Test
     void save() {
-        AccountResponseModel expected = new AccountResponseModel(accountModel);
-        AccountResponseModel result = accountService.save(accountModel);
+        AccountResponse expected = new AccountResponse(account);
+        AccountResponse result = accountService.save(account);
         assertEquals(expected,result);
     }
 
     @Test
     void saveFailed() {
-        AccountResponseModel expected = new AccountResponseModel(accountModel);
+        AccountResponse expected = new AccountResponse(account);
 
-        AccountResponseModel expected2 = new AccountResponseModel(accountModel);
+        AccountResponse expected2 = new AccountResponse(account);
         expected2.setViolations(EnumAccountViolations.ACCOUNT_ALREADY_INITIALIZED);
 
 
-        AccountResponseModel result = accountService.save(accountModel) ;
+        AccountResponse result = accountService.save(account) ;
         assertEquals(expected,result);
 
-        AccountModel accountModel1 = new AccountModel(true,350L);
-        when(accountPersistence.getById(eq(1))).thenReturn(accountModel);
+        Account account1 = new Account(true,350L);
+        when(accountPersistence.getById(eq(1))).thenReturn(account);
 
-        when(accountPersistence.merge(eq(accountModel1))).thenReturn(accountModel1);
-        AccountResponseModel result2 = accountService.save(accountModel1);
+        when(accountPersistence.merge(eq(account1))).thenReturn(account1);
+        AccountResponse result2 = accountService.save(account1);
 
         assertEquals(expected2,result2);
 
@@ -68,53 +60,53 @@ class AccountServiceImplTest {
 
     @Test
     void getAccount() {
-        when(accountPersistence.getById(eq(1))).thenReturn(accountModel);
-        AccountModel result = accountService.getAccount(1);
-        assertEquals(accountModel,result);
+        when(accountPersistence.getById(eq(1))).thenReturn(account);
+        Account result = accountService.getAccount(1);
+        assertEquals(account,result);
     }
 
     @Test
     void getAccountFailed() {
-        when(accountPersistence.getById(eq(1))).thenReturn(accountModel);
-        AccountModel result = accountService.getAccount(2);
-        assertNotEquals(accountModel,result);
+        when(accountPersistence.getById(eq(1))).thenReturn(account);
+        Account result = accountService.getAccount(2);
+        assertNotEquals(account,result);
     }
 
     @Test
     void saveNotActiveCard() {
-        AccountModel accountModel = new AccountModel(false,100L);
-        when(accountPersistence.merge(eq(accountModel))).thenReturn(accountModel);
-        AccountResponseModel expected = new AccountResponseModel(accountModel);
-        AccountResponseModel result = accountService.save(accountModel);
+        Account account = new Account(false,100L);
+        when(accountPersistence.merge(eq(account))).thenReturn(account);
+        AccountResponse expected = new AccountResponse(account);
+        AccountResponse result = accountService.save(account);
         assertEquals(expected,result);
     }
 
     @Test
     void saveNotLimitCard() {
-        AccountModel accountModel = new AccountModel(true,0L);
-        when(accountPersistence.merge(eq(accountModel))).thenReturn(accountModel);
-        AccountResponseModel expected = new AccountResponseModel(accountModel);
-        AccountResponseModel result = accountService.save(accountModel);
+        Account account = new Account(true,0L);
+        when(accountPersistence.merge(eq(account))).thenReturn(account);
+        AccountResponse expected = new AccountResponse(account);
+        AccountResponse result = accountService.save(account);
         assertEquals(expected,result);
     }
 
     @Test
     void saveNotLimitAndNotActiveCard() {
-        AccountModel accountModel = new AccountModel(false,0L);
-        when(accountPersistence.merge(eq(accountModel))).thenReturn(accountModel);
-        AccountResponseModel expected = new AccountResponseModel(accountModel);
-        AccountResponseModel result = accountService.save(accountModel);
+        Account account = new Account(false,0L);
+        when(accountPersistence.merge(eq(account))).thenReturn(account);
+        AccountResponse expected = new AccountResponse(account);
+        AccountResponse result = accountService.save(account);
         assertEquals(expected,result);
     }
 
     @Test
     void updateLimit(){
-        AccountModel accountModel = new AccountModel(true,100L);
-        when(accountService.getAccount(1)).thenReturn(accountModel);
-        AccountModel expected = new AccountModel(true,30L);
-        when(accountPersistence.merge(eq(accountModel))).thenReturn(expected);
+        Account account = new Account(true,100L);
+        when(accountService.getAccount(1)).thenReturn(account);
+        Account expected = new Account(true,30L);
+        when(accountPersistence.merge(eq(account))).thenReturn(expected);
 
-        AccountModel result = accountService.updateLimit(1,70L);
+        Account result = accountService.updateLimit(1,70L);
         assertEquals(expected,result);
 
     }
@@ -122,12 +114,12 @@ class AccountServiceImplTest {
 
     @Test
     void updateLimitFailed(){
-        AccountModel accountModel = new AccountModel(true,100L);
-        when(accountService.getAccount(1)).thenReturn(accountModel);
-        AccountModel expected = new AccountModel(true,0L);
-        when(accountPersistence.merge(eq(accountModel))).thenReturn(expected);
+        Account account = new Account(true,100L);
+        when(accountService.getAccount(1)).thenReturn(account);
+        Account expected = new Account(true,0L);
+        when(accountPersistence.merge(eq(account))).thenReturn(expected);
 
-        AccountModel result = accountService.updateLimit(1,110L);
+        Account result = accountService.updateLimit(1,110L);
         assertEquals(expected,result);
 
     }

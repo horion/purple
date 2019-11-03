@@ -1,13 +1,12 @@
 package challenger.purple.validations;
 
-import challenger.purple.model.AccountModel;
-import challenger.purple.model.TransactionModel;
+import challenger.purple.model.Account;
+import challenger.purple.model.Transaction;
 import challenger.purple.model.enums.EnumAccountViolations;
-import challenger.purple.model.response.AccountResponseModel;
+import challenger.purple.model.response.AccountResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -16,59 +15,59 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ActiveCardValidatorTest {
     private ActiveCardValidator activeCardValidator;
-    private Map<Integer,TransactionModel> map = new TreeMap<>();
+    private Map<Integer, Transaction> map = new TreeMap<>();
 
     @BeforeEach
     void init(){
         activeCardValidator = new ActiveCardValidator();
         activeCardValidator.setNextValidtor(new LastValidator());
-        TransactionModel transactionModel = new TransactionModel("Burger King", 20L, "2019-02-13T10:00:00.000Z");
-        map.put(1, transactionModel);
+        Transaction transaction = new Transaction("Burger King", 20L, "2019-02-13T10:00:00.000Z");
+        map.put(1, transaction);
     }
 
     @Test
     void validation() {
-        AccountModel accountModel = new AccountModel(true, 100L);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
+        Account account = new Account(true, 100L);
+        AccountResponse accountResponse = new AccountResponse(account);
+        AccountResponse accountResponseExpected = new AccountResponse(account);
 
-        AccountResponseModel a = activeCardValidator.validation(accountResponseModel,map);
+        AccountResponse a = activeCardValidator.validation(accountResponse,map);
         assertEquals(accountResponseExpected,a);
 
     }
 
     @Test
     void validationCardNotActive() {
-        AccountModel accountModel = new AccountModel(false, 100L);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
+        Account account = new Account(false, 100L);
+        AccountResponse accountResponse = new AccountResponse(account);
+        AccountResponse accountResponseExpected = new AccountResponse(account);
         accountResponseExpected.setViolations(EnumAccountViolations.CARD_NOT_ACTIVE);
 
 
-        AccountResponseModel a = activeCardValidator.validation(accountResponseModel,map);
+        AccountResponse a = activeCardValidator.validation(accountResponse,map);
         assertEquals(accountResponseExpected,a);
 
     }
 
     @Test
     void validationCardNotActiveFailed() {
-        AccountModel accountModel = new AccountModel(false, 100L);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
+        Account account = new Account(false, 100L);
+        AccountResponse accountResponse = new AccountResponse(account);
+        AccountResponse accountResponseExpected = new AccountResponse(account);
 
-        AccountResponseModel a = activeCardValidator.validation(accountResponseModel,map);
+        AccountResponse a = activeCardValidator.validation(accountResponse,map);
         assertNotEquals(accountResponseExpected,a);
 
     }
 
     @Test
     void validationActiveCardFailed() {
-        AccountModel accountModel = new AccountModel(true, 100L);
-        AccountResponseModel accountResponseModel = new AccountResponseModel(accountModel);
-        AccountResponseModel accountResponseExpected = new AccountResponseModel(accountModel);
+        Account account = new Account(true, 100L);
+        AccountResponse accountResponse = new AccountResponse(account);
+        AccountResponse accountResponseExpected = new AccountResponse(account);
         accountResponseExpected.setViolations(EnumAccountViolations.CARD_NOT_ACTIVE);
 
-        AccountResponseModel a = activeCardValidator.validation(accountResponseModel,map);
+        AccountResponse a = activeCardValidator.validation(accountResponse,map);
         assertNotEquals(accountResponseExpected,a);
 
     }

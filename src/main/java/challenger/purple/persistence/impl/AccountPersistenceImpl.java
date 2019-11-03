@@ -1,6 +1,6 @@
 package challenger.purple.persistence.impl;
 
-import challenger.purple.model.AccountModel;
+import challenger.purple.model.Account;
 import challenger.purple.persistence.Persistence;
 import org.springframework.stereotype.Component;
 
@@ -8,26 +8,26 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @Component
-public class AccountPersistenceImpl implements Persistence<AccountModel> {
+public class AccountPersistenceImpl implements Persistence<Account> {
 
-    private Map<Integer,AccountModel> account;
+    private Map<Integer, Account> account;
 
     public AccountPersistenceImpl() {
         this.account = new TreeMap<>();
     }
 
     @Override
-    public AccountModel merge(AccountModel accountModel) {
-        return this.account.put(1,accountModel);
+    public Account merge(Account account) {
+        return this.account.put(1, account);
     }
 
     @Override
-    public AccountModel getById(Integer id) {
+    public Account getById(Integer id) {
         return this.account.get(id);
     }
 
     @Override
-    public Map<Integer, AccountModel> get() {
+    public Map<Integer, Account> get() {
         return this.account;
     }
 

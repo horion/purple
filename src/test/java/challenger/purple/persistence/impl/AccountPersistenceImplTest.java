@@ -1,6 +1,6 @@
 package challenger.purple.persistence.impl;
 
-import challenger.purple.model.AccountModel;
+import challenger.purple.model.Account;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,36 +15,36 @@ import static org.mockito.Mockito.when;
 class AccountPersistenceImplTest {
 
     AccountPersistenceImpl accountPersistence;
-    private AccountModel accountModel;
-    private Map<Integer,AccountModel> map = new TreeMap<>();
+    private Account account;
+    private Map<Integer, Account> map = new TreeMap<>();
 
     @BeforeEach
     void init(){
         accountPersistence = mock(AccountPersistenceImpl.class) ;
-        accountModel = new AccountModel(true,100L);
+        account = new Account(true,100L);
 
     }
 
 
     @Test
     void merge() {
-        when(accountPersistence.merge(accountModel)).thenReturn(accountModel);
-        AccountModel result = accountPersistence.merge(accountModel);
-        assertEquals(accountModel,result);
+        when(accountPersistence.merge(account)).thenReturn(account);
+        Account result = accountPersistence.merge(account);
+        assertEquals(account,result);
     }
 
     @Test
     void getById() {
-        when(accountPersistence.getById(1)).thenReturn(accountModel);
-        AccountModel result = accountPersistence.getById(1);
-        assertEquals(accountModel,result);
+        when(accountPersistence.getById(1)).thenReturn(account);
+        Account result = accountPersistence.getById(1);
+        assertEquals(account,result);
     }
 
     @Test
     void get() {
-        map.put(1,accountModel);
+        map.put(1, account);
         when(accountPersistence.get()).thenReturn(map);
-        Map<Integer, AccountModel> result =  accountPersistence.get();
+        Map<Integer, Account> result =  accountPersistence.get();
         assertEquals(map,result);
     }
 }

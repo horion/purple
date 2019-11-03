@@ -3,27 +3,27 @@ package challenger.purple.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class TransactionModel implements Serializable {
+public class Transaction implements Serializable {
     private static final long serialVersionUID = -6966027411603573620L;
 
     private String merchant;
     private Long amount;
     private String time;
 
-    public TransactionModel(String merchant, Long amount, String time) {
+    public Transaction(String merchant, Long amount, String time) {
         this.merchant = merchant;
         this.amount = amount;
         this.time = time;
     }
 
-    public TransactionModel() {
+    public Transaction() {
     }
 
     public String getMerchant() {
         return merchant;
     }
 
-    public TransactionModel setMerchant(String merchant) {
+    public Transaction setMerchant(String merchant) {
         this.merchant = merchant;
         return this;
     }
@@ -32,7 +32,7 @@ public class TransactionModel implements Serializable {
         return amount;
     }
 
-    public TransactionModel setAmount(Long amount) {
+    public Transaction setAmount(Long amount) {
         this.amount = amount;
         return this;
     }
@@ -41,7 +41,7 @@ public class TransactionModel implements Serializable {
         return time;
     }
 
-    public TransactionModel setTime(String time) {
+    public Transaction setTime(String time) {
         this.time = time;
         return this;
     }
@@ -50,7 +50,7 @@ public class TransactionModel implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TransactionModel that = (TransactionModel) o;
+        Transaction that = (Transaction) o;
         return Objects.equals(merchant, that.merchant) &&
                 Objects.equals(amount, that.amount);
     }
