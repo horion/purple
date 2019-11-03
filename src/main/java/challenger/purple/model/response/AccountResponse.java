@@ -42,7 +42,7 @@ public class AccountResponse implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountResponse that = (AccountResponse) o;
-        return this.account == that.account &&
+        return this.account.equals(that.account) &&
                 Objects.equals(violations, that.violations);
     }
 

@@ -43,7 +43,10 @@ class TransactionServiceImplTest {
 
         when(persistence.get()).thenReturn(map);
 
+        Account account = new Account(true, 80L);
+
         AccountResponse expected = new AccountResponse(account);
+        when(accountService.updateLimit(1,20L)).thenReturn(account);
         AccountResponse result = transactionService.createTransaction(transaction);
         assertEquals(expected,result);
 
@@ -56,11 +59,19 @@ class TransactionServiceImplTest {
         map.put(map.size()+1, transaction);
         when(persistence.get()).thenReturn(map);
 
+        Account account = new Account(true, 80L);
+
+        when(accountService.updateLimit(1,20L)).thenReturn(account);
+
         AccountResponse result = transactionService.createTransaction(transaction);
         assertEquals(expected,result);
 
         Transaction transaction2 = new Transaction("Burger King", 20L, "2019-02-13T10:01:00.000Z");
         map.put(map.size()+1, transaction2);
+
+        Account account2 = new Account(true, 60L);
+
+        when(accountService.updateLimit(1,20L)).thenReturn(account2);
 
         expected.setViolations(EnumAccountViolations.DOUBLE_TRANSACTION);
 
@@ -79,11 +90,19 @@ class TransactionServiceImplTest {
         map.put(map.size()+1, transaction);
         when(persistence.get()).thenReturn(map);
 
+        Account account = new Account(true, 80L);
+
+        when(accountService.updateLimit(1,20L)).thenReturn(account);
+
         AccountResponse result = transactionService.createTransaction(transaction);
         assertEquals(expected,result);
 
         Transaction transaction2 = new Transaction("Burger King", 20L, "2019-02-13T10:03:01.000Z");
         map.put(map.size()+1, transaction2);
+
+        Account account2 = new Account(true, 60L);
+
+        when(accountService.updateLimit(1,20L)).thenReturn(account2);
 
         when(persistence.get()).thenReturn(map);
 
@@ -99,6 +118,10 @@ class TransactionServiceImplTest {
         map.put(map.size()+1, transaction);
         when(persistence.get()).thenReturn(map);
 
+        Account account = new Account(true, 70L);
+
+        when(accountService.updateLimit(1,30L)).thenReturn(account);
+
         AccountResponse result = transactionService.createTransaction(transaction);
         assertEquals(expected,result);
 
@@ -106,6 +129,10 @@ class TransactionServiceImplTest {
         map.put(map.size()+1, transaction2);
 
         when(persistence.get()).thenReturn(map);
+
+        Account account2 = new Account(true, 50L);
+
+        when(accountService.updateLimit(1,20L)).thenReturn(account2);
 
         AccountResponse result2 = transactionService.createTransaction(transaction);
         assertEquals(expected,result2);
@@ -121,6 +148,10 @@ class TransactionServiceImplTest {
         map.put(map.size()+1, transaction);
         when(persistence.get()).thenReturn(map);
 
+        Account account = new Account(true, 80L);
+
+        when(accountService.updateLimit(1,20L)).thenReturn(account);
+
         AccountResponse result = transactionService.createTransaction(transaction);
         assertEquals(expected,result);
 
@@ -128,6 +159,10 @@ class TransactionServiceImplTest {
         map.put(map.size()+1, transaction2);
 
         when(persistence.get()).thenReturn(map);
+
+        Account account2 = new Account(true, 50L);
+
+        when(accountService.updateLimit(1,20L)).thenReturn(account2);
 
         AccountResponse result2 = transactionService.createTransaction(transaction);
         assertEquals(expected,result2);
@@ -137,12 +172,21 @@ class TransactionServiceImplTest {
         map.put(map.size()+1, transaction3);
         when(persistence.get()).thenReturn(map);
 
+        Account account3 = new Account(true, 10L);
+
+        when(accountService.updateLimit(1,40L)).thenReturn(account3);
+
         AccountResponse result3 = transactionService.createTransaction(transaction);
         assertEquals(expected,result3);
 
         Transaction transaction4 = new Transaction("Bar da Veia", 10L, "2019-02-13T10:03:00.000Z");
         map.put(map.size()+1, transaction4);
         when(persistence.get()).thenReturn(map);
+
+        Account account4 = new Account(true, 0L);
+
+        when(accountService.updateLimit(1,10L)).thenReturn(account4);
+
 
         expected.setViolations(EnumAccountViolations.HIGH_FREQUENCY_SMALL_INTERVAL);
 
@@ -160,7 +204,12 @@ class TransactionServiceImplTest {
         map.put(map.size()+1, transaction);
         when(persistence.get()).thenReturn(map);
 
+        Account account4 = new Account(true, 10L);
+
+        when(accountService.updateLimit(1,90L)).thenReturn(account4);
+
         AccountResponse result = transactionService.createTransaction(transaction);
+        expected.setAccount(account4);
 
         assertEquals(expected,result);
 
