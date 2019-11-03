@@ -4,6 +4,7 @@ import challenger.purple.Util.Util;
 import challenger.purple.model.Account;
 import challenger.purple.model.event.AccountEvent;
 import challenger.purple.model.response.AccountResponse;
+import challenger.purple.queue.ExecutorManager;
 import challenger.purple.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -15,11 +16,13 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private ExecutorManager executorManager;
 
 
     @EventListener
     public void processEvent(AccountEvent accountEvent){
-        execute(accountEvent);
+        executorManager.addQueue(() -> execute(accountEvent));
     }
 
     private void execute(AccountEvent accountEvent) {
