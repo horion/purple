@@ -40,14 +40,4 @@ public class Util {
         }
     }
 
-    public static String objectToJson(Object o){
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(o);
-        } catch (JsonProcessingException e) {
-            logger.error(e.getMessage(),e);
-        }
-        return "";
-    }
-
 }

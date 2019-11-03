@@ -32,7 +32,8 @@ public class AccountController {
             account.setAvailableLimit(0L);
 
         AccountResponse accountResponse = accountService.save(account);
-        System.out.println(Util.objectToJson(accountResponse));
+        /*System.out.println(Util.objectToJson(accountResponse));*/
+        System.out.println(accountResponse);
     }
 
 }

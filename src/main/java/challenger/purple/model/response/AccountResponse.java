@@ -70,4 +70,12 @@ public class AccountResponse implements Serializable {
     public int hashCode() {
         return Objects.hash(activeCard, violations);
     }
+
+    @Override
+    public String toString() {
+        return "{ account: {" +
+                "activeCard:" + activeCard +
+                ", availableLimit:" + availableLimit +
+                '}'+", violations: "+ violations.toString()+"}";
+    }
 }
