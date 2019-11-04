@@ -28,7 +28,7 @@ public class ConfigureValidator {
         activeCardValidator.setNextValidtor(limitCardValidator);
         limitCardValidator.setNextValidtor(transactionFrequencySmallInterval);
         transactionFrequencySmallInterval.setNextValidtor(transactionSameMerchant);
-        transactionSameMerchant.setNextValidtor(new LastValidator());
+        transactionSameMerchant.setNextValidator(new LastValidator());
 
     }
 

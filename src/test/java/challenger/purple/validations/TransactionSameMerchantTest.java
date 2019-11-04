@@ -25,7 +25,7 @@ class TransactionSameMerchantTest {
     @BeforeEach
     void init(){
         transactionSameMerchant = new TransactionSameMerchant();
-        transactionSameMerchant.setNextValidtor(new LastValidator());
+        transactionSameMerchant.setNextValidator(new LastValidator());
         account = new Account(true, 100L);
     }
 
