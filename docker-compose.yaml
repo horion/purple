@@ -4,8 +4,6 @@ services:
     build:
       context: ./target
       dockerfile: Dockerfile
-      args:
-        FILE: operations
     entrypoint: [
             "/bin/bash",
             "entrypoint.sh",
