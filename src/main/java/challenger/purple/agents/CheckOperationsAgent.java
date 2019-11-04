@@ -25,10 +25,13 @@ import java.nio.file.Paths;
 @Component
 public class CheckOperationsAgent {
 
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
+    private final ApplicationEventPublisher applicationEventPublisher;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    public CheckOperationsAgent(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
+    }
 
 
     @Scheduled(initialDelayString = "${scheduler.initial}", fixedRateString = "${scheduler.fixedRate}")

@@ -14,8 +14,6 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountPersistenceImpl persistence;
 
-    private ConfigureAccountValidator configureAccountValidator;
-
     @Autowired
     public AccountServiceImpl(AccountPersistenceImpl persistence) {
         this.persistence = persistence;

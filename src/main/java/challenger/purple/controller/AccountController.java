@@ -14,10 +14,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountController {
 
+    private final AccountService accountService;
+    private final ExecutorManager executorManager;
+
     @Autowired
-    private AccountService accountService;
-    @Autowired
-    private ExecutorManager executorManager;
+    public AccountController(AccountService accountService, ExecutorManager executorManager) {
+        this.accountService = accountService;
+        this.executorManager = executorManager;
+    }
 
 
     @EventListener

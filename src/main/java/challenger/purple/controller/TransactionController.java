@@ -14,13 +14,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TransactionController {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
+    private final TransactionService transactionService;
+    private final ExecutorManager executorManager;
+
     @Autowired
-    private TransactionService transactionService;
-    @Autowired
-    private ExecutorManager executorManager;
+    public TransactionController(TransactionService transactionService, ExecutorManager executorManager) {
+        this.transactionService = transactionService;
+        this.executorManager = executorManager;
+    }
 
 
     @EventListener
