@@ -10,8 +10,8 @@
     </parent>
     <groupId>challenger</groupId>
     <artifactId>purple</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>purple</name>
+    <version>1.0</version>
     <description>Purple Project</description>
 
     <properties>

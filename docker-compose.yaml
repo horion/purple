@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  purple:
+    build:
+      context: ./target
+      dockerfile: Dockerfile
+      args:
+        FILE: operations
+    entrypoint: [
+            "/bin/bash",
+            "entrypoint.sh",
+            "operations"
+    ]
