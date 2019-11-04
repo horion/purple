@@ -1,5 +1,15 @@
-{ "account": { "activeCard": true, "availableLimit": 100 } }
-{ "transaction": { "merchant": "Habbib's", "amount": 30, "time": "2019-02-13T11:00:00.000Z" } }
-{ "transaction": { "merchant": "Habbib's", "amount": 30, "time": "2019-02-13T11:00:00.000Z" } }
-{ "transaction": { "merchant": "Habbib's", "amount": 25, "time": "2019-02-13T11:00:00.000Z" } }
-{ "account": { "activeCard": false, "availableLimit": 350 } }
+{ "account": { "activeCard": true, "availableLimit": 1000 } }
+{ "account": { "activeCard": true, "availableLimit": 200 } }
+{ "transaction": { "merchant": "Habbib's", "amount": 30, "time": "2019-02-13T11:01:00.000Z" } }
+{ "transaction": { "merchant": "Avon", "amount": 60, "time": "2019-02-13T11:01:00.000Z" } }
+{ "transaction": { "merchant": "Ragazzo", "amount": 10, "time": "2019-02-13T11:01:00.000Z" } }
+{ "transaction": { "merchant": "Carrefour", "amount": 11, "time": "2019-02-13T11:04:00.000Z" } }
+{ "transaction": { "merchant": "Havan", "amount": 11, "time": "2019-02-13T11:04:00.000Z" } }
+{ "transaction": { "merchant": "Riachuelo", "amount": 11, "time": "2019-02-13T11:04:00.000Z" } }
+{ "transaction": { "merchant": "KFC", "amount": 11, "time": "2019-02-13T11:04:00.000Z" } }
+{ "transaction": { "merchant": "Brooxklin", "amount": 11, "time": "2019-02-13T11:04:00.000Z" } }
+{ "transaction": { "merchant": "Outlet", "amount": 11, "time": "2019-02-13T11:01:00.000Z" } }
+{ "transaction": { "merchant": "Hashicorp", "amount": 11, "time": "2019-02-13T11:01:00.000Z" } }
+{ "transaction": { "merchant": "Forever 21", "amount": 11, "time": "2019-02-13T11:01:00.000Z" } }
+{ "transaction": { "merchant": "Tayan", "amount": 11, "time": "2019-02-13T11:08:00.000Z" } }
+{ "transaction": { "merchant": "Baked Potato", "amount": 11, "time": "2019-02-13T11:09:00.000Z" } }
