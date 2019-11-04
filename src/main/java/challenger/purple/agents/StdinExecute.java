@@ -1,6 +1,5 @@
 package challenger.purple.agents;
 
-
 import challenger.purple.Util.Util;
 import challenger.purple.model.Account;
 import challenger.purple.model.Transaction;
@@ -10,38 +9,34 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
-@ConfigurationProperties(prefix = "scheduler")
 @Component
-public class CheckOperationsAgent {
-
+public class StdinExecute {
     private final ApplicationEventPublisher applicationEventPublisher;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public CheckOperationsAgent(ApplicationEventPublisher applicationEventPublisher) {
+    public StdinExecute(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
 
-    @Scheduled(initialDelayString = "${scheduler.initial}", fixedRateString = "${scheduler.fixedRate}")
-    public void startProcess(){
-        try {
-            Path operationsFile = Paths.get("operations");
-            Files.lines(operationsFile).forEach(this::getOperations);
-        } catch (IOException e) {
-            logger.info("Arquivo de operações não encontrado");
+
+    public void startProcess(String[] args) throws FileNotFoundException {
+        if(args.length > 0) {
+            Scanner sc = new Scanner(new File(args[0]));
+            while(sc.hasNext()){
+                getOperations(sc.nextLine());
+            }
         }
+
     }
 
     private void getOperations(String folder) {
@@ -70,6 +65,4 @@ public class CheckOperationsAgent {
                 ,jsonNode.get("account").get("availableLimit").asLong());
         transactionEvent.setAccount(account);
     }
-
-
 }

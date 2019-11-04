@@ -1,6 +1,9 @@
 package challenger.purple;
 
-import org.springframework.boot.CommandLineRunner;
+import challenger.purple.agents.StdinExecute;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
@@ -15,7 +18,7 @@ import java.util.concurrent.Executors;
 @EnableAsync
 @EnableScheduling
 @SpringBootApplication(exclude = {WebMvcAutoConfiguration.class,})
-public class PurpleApplication implements CommandLineRunner {
+public class PurpleApplication implements ApplicationRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(PurpleApplication.class, args);
@@ -31,10 +34,11 @@ public class PurpleApplication implements CommandLineRunner {
         return eventMulticaster;
     }
 
+    @Autowired
+    StdinExecute execute;
 
     @Override
-    public void run(String... args) {
+    public void run(ApplicationArguments args) throws Exception {
+        execute.startProcess(args.getSourceArgs());
     }
-
-
 }
