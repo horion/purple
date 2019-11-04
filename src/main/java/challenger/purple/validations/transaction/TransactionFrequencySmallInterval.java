@@ -25,8 +25,12 @@ public class TransactionFrequencySmallInterval implements Validations<AccountRes
         count = new AtomicLong(0);
         List<LocalDateTime>  transactionsDate = transactionModelMap.values().stream().map(getTime()).collect(Collectors.toList());
         for (int i = 0; i < transactionsDate.size()-1; i++) {
-            for (int j = i+1; j < transactionsDate.size(); j++) {
-                compareDuration(transactionsDate.get(i),transactionsDate.get(j));
+            for (int j = transactionsDate.size() - 1; j >= i + 1; j--) {
+                if(compareDuration(transactionsDate.get(i),transactionsDate.get(j))){
+                    count.incrementAndGet();
+                }else{
+                    break;
+                }
             }
         }
         if(count.get() > 3){
@@ -41,10 +45,10 @@ public class TransactionFrequencySmallInterval implements Validations<AccountRes
                 Util.convertStringDateToLocalDateTime(transactionModel.getTime());
     }
 
-    private void compareDuration(LocalDateTime previus, LocalDateTime next){
+    private boolean compareDuration(LocalDateTime previus, LocalDateTime next){
         Duration duration = Duration.between(previus, next);
-        if(duration.getSeconds() <= 120)
-            count.incrementAndGet();
+        return duration.getSeconds() <= 120;
+
 
     }
 
