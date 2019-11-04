@@ -145,7 +145,7 @@ class TransactionServiceImplTest {
     void createTransactionHighFrequecnyFailed() {
         AccountResponse expected = new AccountResponse(account);
 
-        Transaction transaction = new Transaction("Burger King", 20L, "2019-02-13T10:01:00.000Z");
+        Transaction transaction = new Transaction("Burger King", 20L, "2019-02-13T10:01:01.000Z");
         map.put(map.size()+1, transaction);
         when(persistence.get()).thenReturn(map);
 
@@ -156,7 +156,7 @@ class TransactionServiceImplTest {
         AccountResponse result = transactionService.createTransaction(transaction);
         assertEquals(expected,result);
 
-        Transaction transaction2 = new Transaction("Burger King", 30L, "2019-02-13T10:01:00.000Z");
+        Transaction transaction2 = new Transaction("Burger King", 30L, "2019-02-13T10:01:02.000Z");
         map.put(map.size()+1, transaction2);
 
         when(persistence.get()).thenReturn(map);
@@ -169,7 +169,7 @@ class TransactionServiceImplTest {
         assertEquals(expected,result2);
 
 
-        Transaction transaction3 = new Transaction("Gildo Lanches", 40L, "2019-02-13T10:05:00.000Z");
+        Transaction transaction3 = new Transaction("Gildo Lanches", 40L, "2019-02-13T10:01:03.000Z");
         map.put(map.size()+1, transaction3);
         when(persistence.get()).thenReturn(map);
 
