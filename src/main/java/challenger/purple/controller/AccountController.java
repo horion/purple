@@ -1,6 +1,5 @@
 package challenger.purple.controller;
 
-import challenger.purple.Util.Util;
 import challenger.purple.model.Account;
 import challenger.purple.model.event.AccountEvent;
 import challenger.purple.model.response.AccountResponse;

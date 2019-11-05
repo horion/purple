@@ -33,4 +33,8 @@ public class ExecutorManager {
         t.start();
     }
 
+    public int queueSize() {
+        return this.queue.size();
+    }
+
 }
