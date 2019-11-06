@@ -25,6 +25,8 @@ public class ExecutorManager {
             while (!Thread.interrupted()) {
                 try {
                     consumeQueue().run();
+                    if(queueSize() <= 0)
+                        System.exit(0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
