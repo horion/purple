@@ -13,8 +13,10 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 @Component
@@ -29,12 +31,12 @@ public class StdinExecute {
 
 
 
-    public void startProcess(String[] args) throws FileNotFoundException {
+    public void startProcess(String[] args) {
         if(args.length > 0) {
-            Scanner sc = new Scanner(new File(args[0]));
-            while(sc.hasNext()){
-                getOperations(sc.nextLine());
-            }
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(System.in));
+            reader.lines().forEach(this::getOperations);
+
         }
 
     }
