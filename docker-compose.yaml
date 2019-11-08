@@ -1,11 +1,11 @@
 version: "3.7"
 services:
   purple:
+    network_mode: host
     build:
       context: .
       dockerfile: Dockerfile
     entrypoint: [
             "/bin/bash",
-            "entrypoint.sh",
-            "operations"
+            "entrypoint.sh"
     ]
